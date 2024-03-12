@@ -1,7 +1,8 @@
-import PageLayout from "../components/PageLayout";
-import type { IShow } from "../types/types.ts";
-import Modal from "../components/Modal.tsx";
+import PageLayout from "../../components/PageLayout.tsx";
+import type { IShow } from "../../types/types.ts";
+import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
+import ShowForm from "./components/ShowForm.tsx";
 //import useShows from "../hooks/useShows.ts";
 
 interface IShowEditModalProps {
@@ -10,7 +11,22 @@ interface IShowEditModalProps {
     onClose: () => void;
 }
 function EditModal({ show, onSubmit, onClose }: IShowEditModalProps) {
-    return <Modal></Modal>;
+    console.log(show);
+    return (
+        <Modal>
+            <ShowForm
+                selectedShow={show}
+                onSubmit={onSubmit}
+                title={"Redigér forestilling"}
+            />
+            <button
+                className="p-1 bg-red-500 text-white rounded hover:bg-red-600"
+                onClick={onClose}
+            >
+                Luk
+            </button>
+        </Modal>
+    );
 }
 
 interface IShowProps {
@@ -27,8 +43,8 @@ function Show({
 }: IShowProps) {
     return (
         <tr className="border-b">
-            <td className="p-1">{show.movieName}</td>
-            <td>{show.cinemaName}</td>
+            <td className="p-1">{show.movie.name}</td>
+            <td>{show.cinema.name}</td>
             <td>{show.hallNumber}</td>
             <td>{show.date}</td>
             <td>{show.time}</td>
@@ -108,26 +124,74 @@ function Shows() {
     const shows: IShow[] = [
         {
             id: 1,
-            movieName: "The Matrix",
+            movie: {
+                id: 2,
+                name: "The Matrix"
+            },
             hallNumber: 1,
-            cinemaName: "Cinema City",
+            cinema: {
+                id: 1,
+                name: "Cinema City",
+                movies: [
+                    {
+                        id: 1,
+                        name: "Die Hard"
+                    },
+                    {
+                        id: 2,
+                        name: "The Matrix"
+                    }
+                ]
+            },
             date: "2021-10-10",
             time: "20:00",
             is3D: false
         },
         {
             id: 2,
-            movieName: "Die Hard",
+            movie: {
+                id: 1,
+                name: "Die Hard"
+            },
             hallNumber: 2,
-            cinemaName: "Cinema City",
+            cinema: {
+                id: 1,
+                name: "Cinema City",
+                movies: [
+                    {
+                        id: 1,
+                        name: "Die Hard"
+                    },
+                    {
+                        id: 2,
+                        name: "The Matrix"
+                    }
+                ]
+            },
             date: "2021-10-10",
             time: "22:00",
             is3D: false
         },
         {
             id: 3,
-            movieName: "The Matrix",
-            cinemaName: "Cinema City 2",
+            movie: {
+                id: 2,
+                name: "The Matrix"
+            },
+            cinema: {
+                id: 1,
+                name: "Cinema City",
+                movies: [
+                    {
+                        id: 1,
+                        name: "Die Hard"
+                    },
+                    {
+                        id: 2,
+                        name: "The Matrix"
+                    }
+                ]
+            },
             hallNumber: 1,
             date: "2021-10-10",
             time: "23:00",

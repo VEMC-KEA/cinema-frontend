@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Shows from "../containers/Shows";
+import Shows from "../containers/admin/Shows.tsx";
 import PageLayout from "./PageLayout.tsx";
 
 function PageRouter() {
