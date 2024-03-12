@@ -5,19 +5,16 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ShowForm from "./components/ShowForm.tsx";
 //import useShows from "../hooks/useShows.ts";
 
-interface IShowEditModalProps {
-    show: IShow | null;
+interface IShowCreateModalProps {
     onSubmit: (show: IShow) => void;
     onClose: () => void;
 }
-function EditModal({ show, onSubmit, onClose }: IShowEditModalProps) {
-    console.log(show);
+function CreateModal({ onSubmit, onClose }: IShowCreateModalProps) {
     return (
         <Modal>
             <ShowForm
-                selectedShow={show}
                 onSubmit={onSubmit}
-                title={"Redigér forestilling"}
+                title={"Opret forestilling"}
             />
             <button
                 className="p-1 bg-red-500 text-white rounded hover:bg-red-600"
@@ -31,13 +28,13 @@ function EditModal({ show, onSubmit, onClose }: IShowEditModalProps) {
 
 interface IShowProps {
     show: IShow;
-    setShowEditModal: Dispatch<SetStateAction<boolean>>;
+    setShowCreateModal: Dispatch<SetStateAction<boolean>>;
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
     setSelectedShow: Dispatch<SetStateAction<IShow | null>>;
 }
 function Show({
     show,
-    setShowEditModal,
+    setShowCreateModal,
     setShowDeleteModal,
     setSelectedShow
 }: IShowProps) {
@@ -54,7 +51,7 @@ function Show({
                     className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                     onClick={() => {
                         setSelectedShow(show);
-                        setShowEditModal((prev) => !prev);
+                        setShowCreateModal((prev) => !prev);
                     }}
                 >
                     Rediger
@@ -75,14 +72,14 @@ function Show({
 
 interface ShowListProps {
     shows: IShow[];
-    setShowEditModal: Dispatch<SetStateAction<boolean>>;
+    setShowCreateModal: Dispatch<SetStateAction<boolean>>;
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
     setSelectedShow: Dispatch<SetStateAction<IShow | null>>;
 }
 function ShowTable({
     shows,
     setShowDeleteModal,
-    setShowEditModal,
+    setShowCreateModal,
     setSelectedShow
 }: ShowListProps) {
     return (
@@ -103,7 +100,7 @@ function ShowTable({
                     shows.map((show) => (
                         <Show
                             show={show}
-                            setShowEditModal={setShowEditModal}
+                            setShowCreateModal={setShowCreateModal}
                             setShowDeleteModal={setShowDeleteModal}
                             setSelectedShow={setSelectedShow}
                             key={show.id}
@@ -116,10 +113,9 @@ function ShowTable({
 
 function Shows() {
     //const {shows, getShow, addShow, updateShow, deleteShow} = useShows();
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [selectedShow, setSelectedShow] = useState<IShow | null>(null);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedShow, setSelectedShow] = useState<IShow | null>(null);
 
     const shows: IShow[] = [
         {
@@ -203,21 +199,18 @@ function Shows() {
             <ShowTable
                 shows={shows}
                 setShowDeleteModal={setShowDeleteModal}
-                setShowEditModal={setShowEditModal}
+                setShowCreateModal={setShowCreateModal}
                 setSelectedShow={setSelectedShow}
             />
-            {showEditModal && (
-                <EditModal
-                    show={selectedShow}
+            {showCreateModal && (
+                <CreateModal
                     onSubmit={(show: IShow) => {
-                        //updateShow(show);
+                        //addShow(show);
                         console.log(show);
-                        setShowEditModal(false);
-                        setSelectedShow(null);
+                        setShowCreateModal(false);
                     }}
                     onClose={() => {
-                        setShowEditModal(false);
-                        setSelectedShow(null);
+                        setShowCreateModal(false);
                     }}
                 />
             )}

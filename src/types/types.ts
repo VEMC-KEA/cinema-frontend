@@ -9,12 +9,12 @@ interface IShow {
 }
 
 interface IShowFormData {
-    movie: IMovie;
-    cinema: ICinema;
-    hallNumber: number;
-    date: string;
-    time: string;
-    is3D: boolean;
+    movie?: IMovie;
+    cinema?: ICinema;
+    hallNumber?: number;
+    date?: string;
+    time?: string;
+    is3D?: boolean;
 }
 
 interface ICinema {
