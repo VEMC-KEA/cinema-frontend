@@ -21,7 +21,6 @@ interface ISelectOption {
     label: string;
 }
 function CreateFormSelects({
-    register,
     getMovies,
     cinemas,
     setValue,

@@ -3,10 +3,11 @@ import type { IShow, IShowFormData } from "../../types/types.ts";
 import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
 import ShowForm from "./components/ShowForm.tsx";
+import { SubmitHandler } from "react-hook-form";
 //import useShows from "../hooks/useShows.ts";
 
 interface IShowCreateModalProps {
-    onSubmit: (show: IShow) => void;
+    onSubmit: SubmitHandler<IShowFormData>;
     onClose: () => void;
 }
 function CreateModal({ onSubmit, onClose }: IShowCreateModalProps) {
@@ -26,18 +27,41 @@ function CreateModal({ onSubmit, onClose }: IShowCreateModalProps) {
     );
 }
 
+interface IShowDeleteModalProps {
+    onSubmit: () => void;
+    onClose: () => void;
+}
+function DeleteModal({ onSubmit, onClose }: IShowDeleteModalProps) {
+    return (
+        <Modal>
+            <h2 className="text-2xl p-4">
+                Er du sikker på at du vil slette denne forestilling?
+            </h2>
+            <div className="flex gap-4 justify-center items-center mt-5">
+                <button
+                    className="w-full p-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    onClick={onSubmit}
+                >
+                    Slet
+                </button>
+                <button
+                    className="w-full p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    onClick={onClose}
+                >
+                    Annuller
+                </button>
+            </div>
+        </Modal>
+    );
+}
+
 interface IShowProps {
     show: IShow;
     setShowCreateModal: Dispatch<SetStateAction<boolean>>;
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
     setSelectedShow: Dispatch<SetStateAction<IShow | null>>;
 }
-function Show({
-    show,
-    setShowCreateModal,
-    setShowDeleteModal,
-    setSelectedShow
-}: IShowProps) {
+function Show({ show, setShowDeleteModal, setSelectedShow }: IShowProps) {
     return (
         <tr className="border-b">
             <td className="p-1">{show.movie.name}</td>
@@ -137,7 +161,8 @@ function Shows() {
                         id: 2,
                         name: "The Matrix"
                     }
-                ]
+                ],
+                halls: [1, 2]
             },
             date: "2021-10-10",
             time: "20:00",
@@ -162,7 +187,8 @@ function Shows() {
                         id: 2,
                         name: "The Matrix"
                     }
-                ]
+                ],
+                halls: [1, 2]
             },
             date: "2021-10-10",
             time: "22:00",
@@ -186,7 +212,8 @@ function Shows() {
                         id: 2,
                         name: "The Matrix"
                     }
-                ]
+                ],
+                halls: [1, 2]
             },
             hallNumber: 1,
             date: "2021-10-10",
@@ -212,6 +239,20 @@ function Shows() {
                     }}
                     onClose={() => {
                         setShowCreateModal(false);
+                    }}
+                />
+            )}
+            {showDeleteModal && (
+                <DeleteModal
+                    onSubmit={() => {
+                        //deleteShow(selectedShow.id);
+                        console.log(selectedShow);
+                        setShowDeleteModal(false);
+                        setSelectedShow(null);
+                    }}
+                    onClose={() => {
+                        setShowDeleteModal(false);
+                        setSelectedShow(null);
                     }}
                 />
             )}
