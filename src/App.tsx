@@ -1,10 +1,7 @@
-import PageRouter from "./components/PageRouter";
-
+import PageRouter from "./components/PageRouter.tsx";
 
 function App() {
-    return (
-        <PageRouter />
-    )
+    return <PageRouter />;
 }
 
 export default App;
