@@ -1,5 +1,5 @@
 import PageLayout from "../../components/PageLayout.tsx";
-import type { IShow } from "../../types/types.ts";
+import type { IShow, IShowFormData } from "../../types/types.ts";
 import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
 import ShowForm from "./components/ShowForm.tsx";
@@ -46,16 +46,7 @@ function Show({
             <td>{show.date}</td>
             <td>{show.time}</td>
             <td>{show.is3D ? "3D" : "2D"}</td>
-            <td className="flex gap-2">
-                <button
-                    className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    onClick={() => {
-                        setSelectedShow(show);
-                        setShowCreateModal((prev) => !prev);
-                    }}
-                >
-                    Rediger
-                </button>
+            <td className="text-center">
                 <button
                     className="p-1 bg-red-500 text-white rounded hover:bg-red-600"
                     onClick={() => {
@@ -92,7 +83,16 @@ function ShowTable({
                     <th>Dato</th>
                     <th>Tid</th>
                     <th>Format</th>
-                    <th></th>
+                    <th className="text-center">
+                        <button
+                            className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            onClick={() => {
+                                setShowCreateModal((prev) => !prev);
+                            }}
+                        >
+                            Opret forestilling
+                        </button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -204,7 +204,8 @@ function Shows() {
             />
             {showCreateModal && (
                 <CreateModal
-                    onSubmit={(show: IShow) => {
+                    onSubmit={(show: IShowFormData) => {
+                        //TODO: Map IShowFormData to IShow object, when backend is ready
                         //addShow(show);
                         console.log(show);
                         setShowCreateModal(false);

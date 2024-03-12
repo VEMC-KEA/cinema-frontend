@@ -42,26 +42,6 @@ function useShows() {
         toast.success("Forestillingen er oprettet");
     }
 
-    async function updateShow(show: IShow) {
-        const response = await fetch(`${url}/${show.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(show)
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke redigere forestillingen");
-            return;
-        }
-        const updatedShow = await response.json();
-        const newShows = shows.map((s) =>
-            s.id === updatedShow.id ? updatedShow : s
-        );
-        setShows(newShows);
-        toast.success("Forestillingen er redigeret");
-    }
-
     async function deleteShow(id: number) {
         const response = await fetch(`${url}/${id}`, {
             method: "DELETE"
@@ -75,7 +55,7 @@ function useShows() {
         toast.success("Forestillingen er slettet");
     }
 
-    return { shows, getShow, addShow, updateShow, deleteShow };
+    return { shows, getShow, addShow, deleteShow };
 }
 
 export default useShows;

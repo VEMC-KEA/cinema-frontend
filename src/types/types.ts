@@ -21,6 +21,7 @@ interface ICinema {
     id: number;
     name: string;
     movies: IMovie[];
+    halls: number[];
 }
 
 interface IMovie {

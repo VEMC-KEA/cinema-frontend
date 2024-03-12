@@ -18,7 +18,8 @@ function useCinemas() {
                     id: 2,
                     name: "The Matrix Reloaded"
                 }
-            ]
+            ],
+            halls: [1, 2, 3]
         },
         {
             id: 2,
@@ -28,7 +29,8 @@ function useCinemas() {
                     id: 3,
                     name: "The Matrix Revolutions"
                 }
-            ]
+            ],
+            halls: [1, 2, 3]
         },
         {
             id: 3,
@@ -38,7 +40,8 @@ function useCinemas() {
                     id: 4,
                     name: "Die Hard"
                 }
-            ]
+            ],
+            halls: [1, 2]
         }
     ];
     //const url = import.meta.env.VITE_API_URL + "/cinemas";
@@ -84,7 +87,13 @@ function useCinemas() {
         return cinemas.find((c) => c.id === id);
     }
 
-    return { cinemas, getCinema, getMoviesByCinema };
+    async function getHallsByCinema(
+        cinemaId: number
+    ): Promise<number[] | undefined> {
+        return cinemas.find((c) => c.id === cinemaId)?.halls;
+    }
+
+    return { cinemas, getCinema, getMoviesByCinema, getHallsByCinema };
 }
 
 export default useCinemas;
