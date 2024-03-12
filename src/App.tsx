@@ -1,9 +1,10 @@
+import PageRouter from "./components/PageRouter";
+
+
 function App() {
     return (
-        <>
-            <h1>Cinema frontend</h1>
-        </>
-    );
+        <PageRouter />
+    )
 }
 
 export default App;
