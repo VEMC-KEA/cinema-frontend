@@ -1,4 +1,4 @@
-interface IShow {
+interface IScreening {
     id?: number;
     movie: IMovie;
     cinema: ICinema;
@@ -8,7 +8,7 @@ interface IShow {
     is3D: boolean;
 }
 
-interface IShowFormData {
+interface IScreeningFormData {
     movie?: IMovie;
     cinema?: ICinema;
     hallNumber?: number;
@@ -39,7 +39,7 @@ interface IReservation {
 interface ITicket {
     id: number;
     seatNumber: number;
-    rowNumber: number;
+    rowName: string;
     price: number;
 }
 
@@ -53,4 +53,4 @@ interface IReservationScreening {
     is3D: boolean;
 }
 
-export type { IShow, IShowFormData, ICinema, IMovie, IReservation, ITicket };
+export type { IScreening, IScreeningFormData, ICinema, IMovie, IReservation, ITicket };

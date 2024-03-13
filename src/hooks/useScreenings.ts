@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import type { IShow } from "../types/types";
+import type { IScreening } from "../types/types";
 import toast from "react-hot-toast";
 
-function useShows() {
-    const [shows, setShows] = useState<IShow[]>([]);
-    const url = import.meta.env.VITE_API_URL + "/shows";
+function useScreenings() {
+    const [screenings, setScreenings] = useState<IScreening[]>([]);
+    const url = import.meta.env.VITE_API_URL + "/screenings";
 
-    async function getShows() {
+    async function getScreenings() {
         const response = await fetch(url);
         const data = await response.json();
-        setShows(data);
+        setScreenings(data);
     }
 
     useEffect(() => {
-        void getShows();
+        void getScreenings();
     }, []);
 
-    async function getShow(id: number): Promise<IShow | undefined> {
+    async function getScreening(id: number): Promise<IScreening | undefined> {
         const response = await fetch(`${url}/${id}`);
         if (!response.ok) {
             toast.error("Kunne ikke finde forestillingen");
@@ -25,24 +25,24 @@ function useShows() {
         return await response.json();
     }
 
-    async function addShow(show: IShow) {
+    async function addScreening(screening: IScreening) {
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(show)
+            body: JSON.stringify(screening)
         });
         if (!response.ok) {
             toast.error("Kunne ikke oprette forestillingen");
             return;
         }
-        const newShow = await response.json();
-        setShows([...shows, newShow]);
+        const newScreening = await response.json();
+        setScreenings([...screenings, newScreening]);
         toast.success("Forestillingen er oprettet");
     }
 
-    async function deleteShow(id: number) {
+    async function deleteScreening(id: number) {
         const response = await fetch(`${url}/${id}`, {
             method: "DELETE"
         });
@@ -50,12 +50,12 @@ function useShows() {
             toast.error("Kunne ikke slette forestillingen");
             return;
         }
-        const newShows = shows.filter((s) => s.id !== id);
-        setShows(newShows);
+        const newScreenings = screenings.filter((s) => s.id !== id);
+        setScreenings(newScreenings);
         toast.success("Forestillingen er slettet");
     }
 
-    return { shows, getShow, addShow, deleteShow };
+    return { screenings, getScreening, addScreening, deleteScreening };
 }
 
-export default useShows;
+export default useScreenings;

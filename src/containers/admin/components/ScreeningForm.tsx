@@ -4,16 +4,16 @@ import {
     UseFormRegister,
     UseFormSetValue
 } from "react-hook-form";
-import type { ICinema, IMovie, IShowFormData } from "../../../types/types.ts";
+import type { ICinema, IMovie, IScreeningFormData } from "../../../types/types.ts";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import useCinemas from "../../../hooks/useCinemas.ts";
 
 interface ICreateFormInputs {
-    register: UseFormRegister<IShowFormData>;
+    register: UseFormRegister<IScreeningFormData>;
     cinemas: ICinema[];
     getMovies: (cinemaId: number) => Promise<IMovie[] | undefined>;
-    setValue: UseFormSetValue<IShowFormData>;
+    setValue: UseFormSetValue<IScreeningFormData>;
     getHalls: (cinemaId: number) => Promise<number[] | undefined>;
 }
 interface ISelectOption {
@@ -128,16 +128,16 @@ function CreateFormSelects({
     );
 }
 
-interface IShowFormProps {
-    onSubmit: SubmitHandler<IShowFormData>;
+interface IScreeningFormProps {
+    onSubmit: SubmitHandler<IScreeningFormData>;
     title: string;
 }
-function ShowForm({ onSubmit, title }: IShowFormProps) {
+function ScreeningForm({ onSubmit, title }: IScreeningFormProps) {
     const { cinemas, getHallsByCinema, getMoviesByCinema } = useCinemas();
     const { register, handleSubmit, setValue, reset } =
-        useForm<IShowFormData>();
+        useForm<IScreeningFormData>();
 
-    const submitForm: SubmitHandler<IShowFormData> = async (data) => {
+    const submitForm: SubmitHandler<IScreeningFormData> = async (data) => {
         await onSubmit(data);
         reset();
     };
@@ -188,4 +188,4 @@ function ShowForm({ onSubmit, title }: IShowFormProps) {
     );
 }
 
-export default ShowForm;
+export default ScreeningForm;

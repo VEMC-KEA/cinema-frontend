@@ -1,19 +1,19 @@
 import PageLayout from "../../components/PageLayout.tsx";
-import type { IShow, IShowFormData } from "../../types/types.ts";
+import type { IScreening, IScreeningFormData } from "../../types/types.ts";
 import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
-import ShowForm from "./components/ShowForm.tsx";
+import ScreeningForm from "./components/ScreeningForm.tsx";
 import { SubmitHandler } from "react-hook-form";
-//import useShows from "../hooks/useShows.ts";
+//import useScreenings from "../hooks/useScreenings.ts";
 
-interface IShowCreateModalProps {
-    onSubmit: SubmitHandler<IShowFormData>;
+interface IScreeningCreateModalProps {
+    onSubmit: SubmitHandler<IScreeningFormData>;
     onClose: () => void;
 }
-function CreateModal({ onSubmit, onClose }: IShowCreateModalProps) {
+function CreateModal({ onSubmit, onClose }: IScreeningCreateModalProps) {
     return (
         <Modal>
-            <ShowForm
+            <ScreeningForm
                 onSubmit={onSubmit}
                 title={"Opret forestilling"}
             />
@@ -27,11 +27,11 @@ function CreateModal({ onSubmit, onClose }: IShowCreateModalProps) {
     );
 }
 
-interface IShowDeleteModalProps {
+interface IScreeningDeleteModalProps {
     onSubmit: () => void;
     onClose: () => void;
 }
-function DeleteModal({ onSubmit, onClose }: IShowDeleteModalProps) {
+function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
     return (
         <Modal>
             <h2 className="text-2xl p-4">
@@ -55,27 +55,27 @@ function DeleteModal({ onSubmit, onClose }: IShowDeleteModalProps) {
     );
 }
 
-interface IShowProps {
-    show: IShow;
-    setShowCreateModal: Dispatch<SetStateAction<boolean>>;
-    setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
-    setSelectedShow: Dispatch<SetStateAction<IShow | null>>;
+interface IScreeningProps {
+    screening: IScreening;
+    setScreeningCreateModal: Dispatch<SetStateAction<boolean>>;
+    setScreeningDeleteModal: Dispatch<SetStateAction<boolean>>;
+    setSelectedScreening: Dispatch<SetStateAction<IScreening | null>>;
 }
-function Show({ show, setShowDeleteModal, setSelectedShow }: IShowProps) {
+function Screening({ screening, setScreeningDeleteModal, setSelectedScreening }: IScreeningProps) {
     return (
         <tr className="border-b">
-            <td className="p-1">{show.movie.name}</td>
-            <td>{show.cinema.name}</td>
-            <td>{show.hallNumber}</td>
-            <td>{show.date}</td>
-            <td>{show.time}</td>
-            <td>{show.is3D ? "3D" : "2D"}</td>
+            <td className="p-1">{screening.movie.name}</td>
+            <td>{screening.cinema.name}</td>
+            <td>{screening.hallNumber}</td>
+            <td>{screening.date}</td>
+            <td>{screening.time}</td>
+            <td>{screening.is3D ? "3D" : "2D"}</td>
             <td className="text-center">
                 <button
                     className="p-1 bg-red-500 text-white rounded hover:bg-red-600"
                     onClick={() => {
-                        setSelectedShow(show);
-                        setShowDeleteModal((prev) => !prev);
+                        setSelectedScreening(screening);
+                        setScreeningDeleteModal((prev) => !prev);
                     }}
                 >
                     Slet
@@ -85,18 +85,18 @@ function Show({ show, setShowDeleteModal, setSelectedShow }: IShowProps) {
     );
 }
 
-interface ShowListProps {
-    shows: IShow[];
-    setShowCreateModal: Dispatch<SetStateAction<boolean>>;
-    setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
-    setSelectedShow: Dispatch<SetStateAction<IShow | null>>;
+interface ScreeningListProps {
+    screenings: IScreening[];
+    setScreeningCreateModal: Dispatch<SetStateAction<boolean>>;
+    setScreeningDeleteModal: Dispatch<SetStateAction<boolean>>;
+    setSelectedScreening: Dispatch<SetStateAction<IScreening | null>>;
 }
-function ShowTable({
-    shows,
-    setShowDeleteModal,
-    setShowCreateModal,
-    setSelectedShow
-}: ShowListProps) {
+function ScreeningTable({
+    screenings,
+    setScreeningDeleteModal,
+    setScreeningCreateModal,
+    setSelectedScreening
+}: ScreeningListProps) {
     return (
         <table className="table-auto w-full">
             <thead>
@@ -111,7 +111,7 @@ function ShowTable({
                         <button
                             className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                             onClick={() => {
-                                setShowCreateModal((prev) => !prev);
+                                setScreeningCreateModal((prev) => !prev);
                             }}
                         >
                             Opret forestilling
@@ -120,14 +120,14 @@ function ShowTable({
                 </tr>
             </thead>
             <tbody>
-                {shows &&
-                    shows.map((show) => (
-                        <Show
-                            show={show}
-                            setShowCreateModal={setShowCreateModal}
-                            setShowDeleteModal={setShowDeleteModal}
-                            setSelectedShow={setSelectedShow}
-                            key={show.id}
+                {screenings &&
+                    screenings.map((screening) => (
+                        <Screening
+                            screening={screening}
+                            setScreeningCreateModal={setScreeningCreateModal}
+                            setScreeningDeleteModal={setScreeningDeleteModal}
+                            setSelectedScreening={setSelectedScreening}
+                            key={screening.id}
                         />
                     ))}
             </tbody>
@@ -135,13 +135,13 @@ function ShowTable({
     );
 }
 
-function Shows() {
-    //const {shows, getShow, addShow, updateShow, deleteShow} = useShows();
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedShow, setSelectedShow] = useState<IShow | null>(null);
+function Screenings() {
+    //const {screenings, getScreening, addScreening, updateScreening, deleteScreening} = useScreenings();
+    const [screeningCreateModal, setScreeningCreateModal] = useState(false);
+    const [screeningDeleteModal, setScreeningDeleteModal] = useState(false);
+    const [selectedScreening, setSelectedScreening] = useState<IScreening | null>(null);
 
-    const shows: IShow[] = [
+    const screenings: IScreening[] = [
         {
             id: 1,
             movie: {
@@ -223,36 +223,36 @@ function Shows() {
     ];
     return (
         <PageLayout>
-            <ShowTable
-                shows={shows}
-                setShowDeleteModal={setShowDeleteModal}
-                setShowCreateModal={setShowCreateModal}
-                setSelectedShow={setSelectedShow}
+            <ScreeningTable
+                screenings={screenings}
+                setScreeningDeleteModal={setScreeningDeleteModal}
+                setScreeningCreateModal={setScreeningCreateModal}
+                setSelectedScreening={setSelectedScreening}
             />
-            {showCreateModal && (
+            {screeningCreateModal && (
                 <CreateModal
-                    onSubmit={(show: IShowFormData) => {
-                        //TODO: Map IShowFormData to IShow object, when backend is ready
-                        //addShow(show);
-                        console.log(show);
-                        setShowCreateModal(false);
+                    onSubmit={(screening: IScreeningFormData) => {
+                        //TODO: Map IScreeningFormData to IScreening object, when backend is ready
+                        //addScreening(screening);
+                        console.log(screening);
+                        setScreeningCreateModal(false);
                     }}
                     onClose={() => {
-                        setShowCreateModal(false);
+                        setScreeningCreateModal(false);
                     }}
                 />
             )}
-            {showDeleteModal && (
+            {screeningDeleteModal && (
                 <DeleteModal
                     onSubmit={() => {
-                        //deleteShow(selectedShow.id);
-                        console.log(selectedShow);
-                        setShowDeleteModal(false);
-                        setSelectedShow(null);
+                        //deleteScreening(selectedScreening.id);
+                        console.log(selectedScreening);
+                        setScreeningDeleteModal(false);
+                        setSelectedScreening(null);
                     }}
                     onClose={() => {
-                        setShowDeleteModal(false);
-                        setSelectedShow(null);
+                        setScreeningDeleteModal(false);
+                        setSelectedScreening(null);
                     }}
                 />
             )}
@@ -260,4 +260,4 @@ function Shows() {
     );
 }
 
-export default Shows;
+export default Screenings;

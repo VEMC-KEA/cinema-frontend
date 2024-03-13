@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Shows from "../containers/admin/Shows.tsx";
+import Screenings from "../containers/admin/Screenings.tsx";
 import PageLayout from "./PageLayout.tsx";
-import Reservations from "../containers/admin/Reservations.tsx";
+import Reservations from "../containers/admin/reservations/Reservations.tsx";
 
 function PageRouter() {
     return (
@@ -18,8 +18,8 @@ function PageRouter() {
                 <Route path="/movies" element={<Movies />} />
                 <Route path="/reservations" element={<Reservations />} /> */}
                 <Route
-                    path="/shows"
-                    element={<Shows />}
+                    path="/screenings"
+                    element={<Screenings />}
                 />
                 <Route path="/reservations" element={<Reservations />} />
             </Routes>
