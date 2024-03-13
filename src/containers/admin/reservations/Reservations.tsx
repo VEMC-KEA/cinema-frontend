@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PageLayout from "../../../components/PageLayout";
 //import useReservations from "../../hooks/useReservations";
-import type { IReservation, IReservationScreening, IScreening } from "../../../types/types";
+import type { IReservation, IReservationScreening } from "../../../types/types";
 import reservationMockData from "./data/reservationMockData";
 import screeningMockData from "./data/screeningMockData";
 import Modal from "../../../components/Modal";
