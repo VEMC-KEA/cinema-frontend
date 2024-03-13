@@ -53,4 +53,4 @@ interface IReservationScreening {
     is3D: boolean;
 }
 
-export type { IScreening, IScreeningFormData, ICinema, IMovie, IReservation, ITicket };
+export type { IScreening, IScreeningFormData, ICinema, IMovie, IReservation, ITicket, IReservationScreening };

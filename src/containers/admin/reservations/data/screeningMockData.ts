@@ -1,84 +1,61 @@
-import { IScreening } from "../../../../types/types";
+import { IReservationScreening } from "../../../../types/types";
 
-function screeningMockData(): IScreening[] {
+
+function screeningMockData(): IReservationScreening[] {
     return [
         {
             id: 1,
-            movie: {
-                id: 2,
-                name: "The Matrix"
-            },
-            hallNumber: 1,
             cinema: {
                 id: 1,
-                name: "Cinema City",
-                movies: [
-                    {
-                        id: 1,
-                        name: "Die Hard"
-                    },
-                    {
-                        id: 2,
-                        name: "The Matrix"
-                    }
-                ],
-                halls: [1, 2]
+                name: "Cinema City"
             },
-            date: "2021-10-10",
+            movie: {
+                id: 1,
+                title: "The Shawshank Redemption"
+            },
+            hall: {
+                id: 1,
+                number: 1
+            },
+            date: "2021-07-01",
             time: "20:00",
             is3D: false
         },
         {
             id: 2,
-            movie: {
-                id: 1,
-                name: "Die Hard"
-            },
-            hallNumber: 2,
             cinema: {
-                id: 1,
-                name: "Cinema City",
-                movies: [
-                    {
-                        id: 1,
-                        name: "Die Hard"
-                    },
-                    {
-                        id: 2,
-                        name: "The Matrix"
-                    }
-                ],
-                halls: [1, 2]
+                id: 2,
+                name: "Cineplex"
             },
-            date: "2021-10-10",
-            time: "22:00",
-            is3D: false
+            movie: {
+                id: 2,
+                title: "The Godfather"
+            },
+            hall: {
+                id: 2,
+                number: 2
+            },
+            date: "2021-07-02",
+            time: "18:00",
+            is3D: true
         },
         {
             id: 3,
-            movie: {
-                id: 2,
-                name: "The Matrix"
-            },
             cinema: {
-                id: 1,
-                name: "Cinema City",
-                movies: [
-                    {
-                        id: 1,
-                        name: "Die Hard"
-                    },
-                    {
-                        id: 2,
-                        name: "The Matrix"
-                    }
-                ],
-                halls: [1, 2]
+                id: 3,
+                name: "Regal Cinemas"
             },
-            hallNumber: 1,
-            date: "2021-10-10",
-            time: "23:00",
-            is3D: true
+            movie: {
+                id: 3,
+                title: "Pulp Fiction"
+            },
+            hall: {
+                id: 3,
+                number: 3
+            },
+            date: "2021-07-03",
+            time: "21:00",
+            is3D: false
         }
     ];
 }

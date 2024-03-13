@@ -1,20 +1,36 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PageLayout from "../../../components/PageLayout";
 //import useReservations from "../../hooks/useReservations";
-import type { IReservation, IScreening } from "../../../types/types";
+import type { IReservation, IReservationScreening, IScreening } from "../../../types/types";
 import reservationMockData from "./data/reservationMockData";
 import screeningMockData from "./data/screeningMockData";
 import Modal from "../../../components/Modal";
 
+function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<SetStateAction<number | null>> }) {
+    return (
+        <div className="p-5">
+            <input
+                type="text"
+                placeholder="Søg efter reservation"
+                className="p-2 border border-gray-400 rounded text-xl"
+                onChange={(e) => {
+                    if (e.target.value.length === 0) setSearchedReservation(null);
+                    setSearchedReservation(parseInt(e.target.value));
+                }}
+            />
+        </div>
+    );
+}
 
 interface IScreeningDeleteModalProps {
     onSubmit: () => void;
     onClose: () => void;
 }
+
 function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
     return (
         <Modal>
-            <h2 className="text-2xl p-4">
+            <h2 className="p-4 text-2xl">
                 Er du sikker på at du vil slette denne reservation?
             </h2>
             <div className="flex gap-4 justify-center items-center mt-5">
@@ -35,11 +51,11 @@ function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
     );
 }
 
-function ScreeningHeader({ screening }: { screening: IScreening }) {
+function ScreeningHeader({ screening }: { screening: IReservationScreening }) {
     return (
-        <div className="flex-row gap-2 text-lg mx-5 mb-5">
-            <div className="text-2xl font-bold">{screening.movie.name}</div>
-            <div className="flex-row">
+        <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
+            <div className="text-4xl font-bold">{screening.movie.title}</div>
+            <div className="flex-row text-xl">
                 <div>{screening.date} {screening.time}</div>
                 <div>{screening.cinema.name}</div>
             </div>
@@ -55,13 +71,13 @@ interface IReservationProps {
 
 function Reservation({ reservation, setSelectedReservation, setReservationDeleteModal }: IReservationProps) {
     return (
-        <div className="m-5">
+        <div className="px-5 w-full text-xl">
             <div className="flex gap-2 my-2">
                 <div className="font-bold">Reservations ID:</div>
                 <div>{reservation.id}</div>
             </div>
             <div className="flex gap-5">
-                <table className="table-auto w-96 border border-r">
+                <table className="table-auto w-5/6 border border-r">
                     <thead>
                         <tr className="text-left">
                             <th>Sæde</th>
@@ -103,15 +119,37 @@ function Reservations() {
     //const { reservations, getReservation, deleteReservation } = useReservations();
     //const { screenings, getScreening } = useScreenings();
     const reservations: IReservation[] = reservationMockData();
-    const screenings: IScreening[] = screeningMockData();
+    const screenings: IReservationScreening[] = screeningMockData();
 
     const [reservationDeleteModal, setReservationDeleteModal] = useState(false);
     const [selectedReservation, setSelectedReservation] = useState<IReservation | null>(null);
+    const [searchedReservationId, setSearchedReservationId] = useState<number | null>(null);
+    const [searchedReservation, setSearchedReservation] = useState<IReservation | null>(null);
+
+    useEffect(() => {
+        if (!searchedReservationId) {
+            setSearchedReservation(null);
+            return;
+        }
+        setSearchedReservation(reservations.find((reservation) => reservation.id === searchedReservationId) || null);
+
+    }, [searchedReservationId]);
 
     return (
         <PageLayout>
-            {
-                screenings.map((screening) => {
+            <Search setSearchedReservation={setSearchedReservationId} />
+            {searchedReservation && (
+                <>
+                    <ScreeningHeader screening={searchedReservation.screening} />
+                    <Reservation
+                        reservation={searchedReservation}
+                        setSelectedReservation={setSelectedReservation}
+                        setReservationDeleteModal={setReservationDeleteModal}
+                    />
+                </>
+            )}
+            {!searchedReservation &&
+                (screenings.map((screening) => {
                     if (reservations.some((reservation) => reservation.screening.id === screening.id)) {
                         return (
                             <div key={screening.id}>
@@ -126,7 +164,7 @@ function Reservations() {
                             </div>
                         );
                     }
-                })
+                }))
             }
             {reservationDeleteModal && (
                 <DeleteModal
