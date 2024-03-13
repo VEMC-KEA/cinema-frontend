@@ -17,8 +17,8 @@ function PageRouter() {
                     element={<Cinemas />}
                 />
                 {/* <Route path="/*" element={<Cinemas />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/movies" element={<Movies />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/reservations" element={<Reservations />} /> */}
                 <Route
                     path="/screenings"

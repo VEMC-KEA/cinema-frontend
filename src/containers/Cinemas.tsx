@@ -1,10 +1,15 @@
 import PageLayout from "../components/PageLayout.tsx";
 import useCinemas from "../hooks/useCinemas.ts";
 import type { ICinema } from "../types/types.ts";
+import { useNavigate } from "react-router-dom";
 
 function Cinema({ cinema }: { cinema: ICinema }) {
+    const navigate = useNavigate();
     return (
-        <div className="cursor-pointer relative flex flex-col bg-white rounded-xl min-h-80 h-[60vh] w-80 justify-end overflow-hidden">
+        <div
+            className="cursor-pointer relative flex flex-col bg-white rounded-xl min-h-80 h-[60vh] w-80 justify-end overflow-hidden"
+            onClick={() => navigate(`/movies?cinemaId=${cinema.id}`)}
+        >
             <div className="z-10 text-stone-800 text-2xl bg-white w-full p-2 text-center">
                 {cinema.name}
             </div>
