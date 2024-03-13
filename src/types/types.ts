@@ -20,6 +20,7 @@ interface IScreeningFormData {
 interface ICinema {
     id: number;
     name: string;
+    imageUrl: string;
     movies: IMovieShortForm[];
     halls: IHallShortForm[];
 }

@@ -15,7 +15,9 @@ function useCinemas() {
     const cinemas: ICinema[] = [
         {
             id: 1,
-            name: "CinemaxX",
+            name: "Palads Teatret",
+            imageUrl:
+                "https://upload.wikimedia.org/wikipedia/commons/b/bf/K%C3%B8benhavn_-_Nordisk_Film_Biografer_Palads_%2825363585019%29.jpg",
             movies: [
                 {
                     id: 1,
@@ -44,6 +46,8 @@ function useCinemas() {
         {
             id: 2,
             name: "Nordisk Film Biografer",
+            imageUrl:
+                "https://migogkbh.dk/wp-content/uploads/2022/06/nfio-1000x600.png",
             movies: [
                 {
                     id: 3,
@@ -68,6 +72,8 @@ function useCinemas() {
         {
             id: 3,
             name: "Cinema City",
+            imageUrl:
+                "https://live.staticflickr.com/5461/30688658861_5efbb9bb35_b.jpg",
             movies: [
                 {
                     id: 4,

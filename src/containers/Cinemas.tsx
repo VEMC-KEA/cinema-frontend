@@ -4,8 +4,15 @@ import type { ICinema } from "../types/types.ts";
 
 function Cinema({ cinema }: { cinema: ICinema }) {
     return (
-        <div className="flex flex-col p-4 bg-white rounded-xl h-80">
-            <h2>{cinema.name}</h2>
+        <div className="cursor-pointer relative flex flex-col bg-white rounded-xl min-h-80 h-[60vh] w-80 justify-end overflow-hidden">
+            <div className="z-10 text-stone-800 text-2xl bg-white w-full p-2 text-center">
+                {cinema.name}
+            </div>
+            <img
+                className="hover:scale-110 duration-1000 transition-transform absolute bottom-0 left-0 w-full h-full object-cover rounded-xl"
+                alt={cinema.name}
+                src={cinema.imageUrl}
+            />
         </div>
     );
 }
@@ -14,7 +21,7 @@ function Cinemas() {
     const { cinemas } = useCinemas();
     return (
         <PageLayout>
-            <div className="p-4 flex gap-4 justify-center items-center">
+            <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
                 {cinemas.map((cinema) => (
                     <Cinema
                         key={cinema.id}
