@@ -4,17 +4,22 @@ import {
     UseFormRegister,
     UseFormSetValue
 } from "react-hook-form";
-import type { ICinema, IMovie, IShowFormData } from "../../../types/types.ts";
+import type {
+    ICinema,
+    IHallShortForm,
+    IMovieShortForm,
+    IScreeningFormData
+} from "../../../types/types.ts";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import useCinemas from "../../../hooks/useCinemas.ts";
 
 interface ICreateFormInputs {
-    register: UseFormRegister<IShowFormData>;
+    register: UseFormRegister<IScreeningFormData>;
     cinemas: ICinema[];
-    getMovies: (cinemaId: number) => Promise<IMovie[] | undefined>;
-    setValue: UseFormSetValue<IShowFormData>;
-    getHalls: (cinemaId: number) => Promise<number[] | undefined>;
+    getMovies: (cinemaId: number) => Promise<IMovieShortForm[] | undefined>;
+    setValue: UseFormSetValue<IScreeningFormData>;
+    getHalls: (cinemaId: number) => Promise<IHallShortForm[] | undefined>;
 }
 interface ISelectOption {
     value: number;
@@ -26,8 +31,8 @@ function CreateFormSelects({
     setValue,
     getHalls
 }: ICreateFormInputs) {
-    const [movies, setMovies] = useState<IMovie[]>([]);
-    const [halls, setHalls] = useState<number[]>([]);
+    const [movies, setMovies] = useState<IMovieShortForm[]>([]);
+    const [halls, setHalls] = useState<IHallShortForm[]>([]);
     const [selectedCinemaOption, setSelectedCinemaOption] =
         useState<ISelectOption>({ value: -1, label: "Vælg en biograf" });
     const [selectedMovieOption, setSelectedMovieOption] =
@@ -74,7 +79,7 @@ function CreateFormSelects({
                             })
                         );
                         setValue("movie", undefined);
-                        setValue("hallNumber", undefined);
+                        setValue("hall", undefined);
                     }}
                 />
             </label>
@@ -109,16 +114,19 @@ function CreateFormSelects({
                         <Select
                             value={selectedHallOption}
                             options={halls.map((hall) => ({
-                                value: hall,
-                                label: `Sal ${hall}`
+                                value: hall.id,
+                                label: `Sal ${hall.number}`
                             }))}
                             onChange={(hall) => {
                                 if (!hall) return;
                                 setSelectedHallOption({
                                     value: hall.value,
-                                    label: `Sal ${hall.value}`
+                                    label: hall.label
                                 });
-                                setValue("hallNumber", hall.value);
+                                setValue(
+                                    "hall",
+                                    halls.find((h) => h.id === hall.value)
+                                );
                             }}
                         />
                     </label>
@@ -128,16 +136,16 @@ function CreateFormSelects({
     );
 }
 
-interface IShowFormProps {
-    onSubmit: SubmitHandler<IShowFormData>;
+interface IScreeningFormProps {
+    onSubmit: SubmitHandler<IScreeningFormData>;
     title: string;
 }
-function ShowForm({ onSubmit, title }: IShowFormProps) {
-    const { cinemas, getHallsByCinema, getMoviesByCinema } = useCinemas();
+function ScreeningForm({ onSubmit, title }: IScreeningFormProps) {
+    const { cinemas, getHallsByCinemaId, getMoviesByCinemaId } = useCinemas();
     const { register, handleSubmit, setValue, reset } =
-        useForm<IShowFormData>();
+        useForm<IScreeningFormData>();
 
-    const submitForm: SubmitHandler<IShowFormData> = async (data) => {
+    const submitForm: SubmitHandler<IScreeningFormData> = async (data) => {
         await onSubmit(data);
         reset();
     };
@@ -149,8 +157,8 @@ function ShowForm({ onSubmit, title }: IShowFormProps) {
             <div className="text-2xl">{title}</div>
             <CreateFormSelects
                 register={register}
-                getMovies={getMoviesByCinema}
-                getHalls={getHallsByCinema}
+                getMovies={getMoviesByCinemaId}
+                getHalls={getHallsByCinemaId}
                 cinemas={cinemas}
                 setValue={setValue}
             />
@@ -188,4 +196,4 @@ function ShowForm({ onSubmit, title }: IShowFormProps) {
     );
 }
 
-export default ShowForm;
+export default ScreeningForm;
