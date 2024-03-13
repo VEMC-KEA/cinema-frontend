@@ -16,7 +16,7 @@ function PageLayout({ children }: PropsWithChildren) {
 
 function NavBar() {
     return (
-        <nav className="fixed bg-white w-full top-0 h-20 items-center p-4 text-lg flex justify-between">
+        <nav className="fixed z-20 bg-white w-full top-0 h-20 items-center p-4 text-lg flex justify-between">
             <div className="flex gap-3 items-center">
                 <LuPopcorn className="text-4xl text-red-600" />
                 <Link
