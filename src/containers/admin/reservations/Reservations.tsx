@@ -100,7 +100,7 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
                 </table>
                 <div className="flex items-end">
                     <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded"
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-4 rounded"
                         onClick={() => {
                             setSelectedReservation(reservation);
                             setReservationDeleteModal((prev) => !prev);
