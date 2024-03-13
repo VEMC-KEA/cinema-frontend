@@ -17,7 +17,7 @@ function NavBar() {
     return (
         <nav className="fixed bg-white w-full top-0 h-20 items-center p-4 text-lg flex justify-between">
             <div className="flex gap-3">
-                <Link to="/shows">Forestillinger</Link>
+                <Link to="/screenings">Forestillinger</Link>
                 <Link to="/movies">Film</Link>
                 <Link to="/cinemas">Biografer</Link>
                 <Link to="/reservations">Reservationer</Link>
