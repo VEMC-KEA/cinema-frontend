@@ -29,4 +29,28 @@ interface IMovie {
     name: string;
 }
 
-export type { IShow, IShowFormData, ICinema, IMovie };
+interface IReservation {
+    id: number;
+    tickets: ITicket[];
+    screening: IReservationScreening;
+    completed: boolean;
+}
+
+interface ITicket {
+    id: number;
+    seatNumber: number;
+    rowNumber: number;
+    price: number;
+}
+
+interface IReservationScreening {
+    id: number | string;
+    cinema: { id: number, name: string };
+    movie: { id: number, title: string };
+    hall: { id: number, number: number };
+    date: string;
+    time: string;
+    is3D: boolean;
+}
+
+export type { IShow, IShowFormData, ICinema, IMovie, IReservation, ITicket };
