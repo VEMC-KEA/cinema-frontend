@@ -1,21 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Screenings from "../containers/admin/Screenings.tsx";
-import PageLayout from "./PageLayout.tsx";
 import Cinemas from "../containers/Cinemas.tsx";
 import Reservations from "../containers/admin/reservations/Reservations.tsx";
 import AuthProvider from "../security/AuthProvider.tsx";
 import Login from "../security/Login.tsx";
 import LogOut from "../security/LogOut.tsx";
+import RequireAuth from "../security/RequireAuth.tsx";
 
 function PageRouter() {
     return (
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
-                    {/*change element to desired landing page*/}
                     <Route
                         path="*"
-                        element={<PageLayout>Not found</PageLayout>}
+                        element={<Cinemas />}
                     />
                     <Route
                         path="/cinemas"
@@ -32,13 +31,22 @@ function PageRouter() {
                         path="/logout"
                         element={<LogOut />}
                     />
+
                     <Route
                         path="/screenings"
-                        element={<Screenings />}
+                        element={
+                            <RequireAuth>
+                                <Screenings />
+                            </RequireAuth>
+                        }
                     />
                     <Route
                         path="/reservations"
-                        element={<Reservations />}
+                        element={
+                            <RequireAuth>
+                                <Reservations />
+                            </RequireAuth>
+                        }
                     />
                 </Routes>
             </AuthProvider>
