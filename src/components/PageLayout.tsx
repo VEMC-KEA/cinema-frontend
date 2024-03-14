@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { LuLogIn, LuPopcorn } from "react-icons/lu";
+import { LuPopcorn } from "react-icons/lu";
+import AuthStatus from "../security/AuthStatus.tsx";
 
 function PageLayout({ children }: PropsWithChildren) {
     return (
@@ -47,12 +48,7 @@ function NavBar() {
                     Reservationer
                 </Link>
                 {/*TODO: Change to log out when logged in*/}
-                <Link
-                    className="font-semibold text-stone-700 hover:text-stone-400 transition-colors"
-                    to="/login"
-                >
-                    <LuLogIn className="text-3xl" />
-                </Link>
+                <AuthStatus />
             </div>
         </nav>
     );
