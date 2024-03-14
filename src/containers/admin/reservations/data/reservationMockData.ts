@@ -16,7 +16,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 1,
-                    title: "The Shawshank Redemption"
+                    name: "The Shawshank Redemption"
                 },
                 hall: {
                     id: 1,
@@ -42,7 +42,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 2,
-                    title: "The Godfather"
+                    name: "The Godfather"
                 },
                 hall: {
                     id: 2,
@@ -68,7 +68,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 3,
-                    title: "Pulp Fiction"
+                    name: "Pulp Fiction"
                 },
                 hall: {
                     id: 3,
@@ -94,7 +94,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 1,
-                    title: "The Shawshank Redemption"
+                    name: "The Shawshank Redemption"
                 },
                 hall: {
                     id: 1,
