@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Screenings from "../containers/admin/Screenings.tsx";
 import PageLayout from "./PageLayout.tsx";
+import Cinemas from "../containers/Cinemas.tsx";
 import Reservations from "../containers/admin/reservations/Reservations.tsx";
 
 function PageRouter() {
@@ -12,10 +13,13 @@ function PageRouter() {
                     path="*"
                     element={<PageLayout>Not found</PageLayout>}
                 />
+                <Route
+                    path="/cinemas"
+                    element={<Cinemas />}
+                />
                 {/* <Route path="/*" element={<Cinemas />} />
-                <Route path="/cinemas" element={<Cinemas />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/movies" element={<Movies />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/reservations" element={<Reservations />} /> */}
                 <Route
                     path="/screenings"

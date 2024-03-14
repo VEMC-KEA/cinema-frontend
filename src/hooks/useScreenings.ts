@@ -6,17 +6,17 @@ function useScreenings() {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
     const url = import.meta.env.VITE_API_URL + "/screenings";
 
-    async function getScreenings() {
+    async function getAll() {
         const response = await fetch(url);
         const data = await response.json();
         setScreenings(data);
     }
 
     useEffect(() => {
-        void getScreenings();
+        void getAll();
     }, []);
 
-    async function getScreening(id: number): Promise<IScreening | undefined> {
+    async function getById(id: number): Promise<IScreening | undefined> {
         const response = await fetch(`${url}/${id}`);
         if (!response.ok) {
             toast.error("Kunne ikke finde forestillingen");
@@ -25,7 +25,7 @@ function useScreenings() {
         return await response.json();
     }
 
-    async function addScreening(screening: IScreening) {
+    async function add(screening: IScreening) {
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -42,7 +42,7 @@ function useScreenings() {
         toast.success("Forestillingen er oprettet");
     }
 
-    async function deleteScreening(id: number) {
+    async function destroy(id: number) {
         const response = await fetch(`${url}/${id}`, {
             method: "DELETE"
         });
@@ -50,12 +50,12 @@ function useScreenings() {
             toast.error("Kunne ikke slette forestillingen");
             return;
         }
-        const newScreenings = screenings.filter((s) => s.id !== id);
-        setScreenings(newScreenings);
+        const updatedScreenings = screenings.filter((s) => s.id !== id);
+        setScreenings(updatedScreenings);
         toast.success("Forestillingen er slettet");
     }
 
-    return { screenings, getScreening, addScreening, deleteScreening };
+    return { screenings, getById, add, destroy };
 }
 
 export default useScreenings;
