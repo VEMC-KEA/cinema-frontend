@@ -37,7 +37,7 @@ interface IHallShortForm {
 
 interface ISeatShortForm {
     seatNumber: number;
-    rowNumber: number;
+    rowName: string;
     reserved: boolean;
     price: number;
 }
@@ -66,9 +66,9 @@ interface ITicket {
 
 interface IReservationScreening {
     id: number | string;
-    cinema: { id: number, name: string };
-    movie: { id: number, title: string };
-    hall: { id: number, number: number };
+    cinema: ICinemaShortForm;
+    movie: IMovieShortForm;
+    hall: IHallShortForm;
     date: string;
     time: string;
     is3D: boolean;
@@ -80,5 +80,6 @@ export type {
     ICinema,
     IMovieShortForm,
     IHallShortForm,
+    ISeatShortForm,
     IReservation, ITicket, IReservationScreening
 };

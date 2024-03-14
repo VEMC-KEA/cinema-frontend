@@ -3,6 +3,7 @@ import Screenings from "../containers/admin/Screenings.tsx";
 import PageLayout from "./PageLayout.tsx";
 import Cinemas from "../containers/Cinemas.tsx";
 import Reservations from "../containers/admin/reservations/Reservations.tsx";
+import ScreeningReservation from "../containers/screeningReservation/ScreeningReservation.tsx";
 
 function PageRouter() {
     return (
@@ -26,6 +27,7 @@ function PageRouter() {
                     element={<Screenings />}
                 />
                 <Route path="/reservations" element={<Reservations />} />
+                <Route path="/movies/:screeningId/reservation" element={<ScreeningReservation />} />
             </Routes>
         </BrowserRouter>
     );
