@@ -1,43 +1,54 @@
 import { useEffect, useState } from "react";
 import { IReservation } from "../types/types";
 import toast from "react-hot-toast";
+import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
 function useReservations() {
     const [reservations, setReservations] = useState<IReservation[]>([]);
     const url = import.meta.env.VITE_API_URL + "/reservations";
 
-    async function getReservations() {
-        const response = await fetch(url);
-        const data = await response.json();
-        setReservations(data);
+    async function getAll() {
+        try {
+            const response = await fetch(url).then(handleHttpErrors);
+            const data = await response.json();
+            setReservations(data);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
+        }
     }
 
     useEffect(() => {
-        void getReservations();
+        void getAll();
     }, []);
 
-    async function getReservation(id: number): Promise<IReservation | undefined> {
-        const response = await fetch(`${url}/${id}`);
-        if (!response.ok) {
-            toast.error("Kunne ikke finde reservationen");
+    async function getById(id: number): Promise<IReservation | undefined> {
+        try {
+            const response = await fetch(`${url}/${id}`).then(handleHttpErrors);
+            return await response.json();
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        return await response.json();
     }
 
-    async function deleteReservation(id: number) {
-        const response = await fetch(`${url}/${id}`, {
-            method: "DELETE"
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke slette reservationen");
-            return;
+    async function destroy(id: number) {
+        const options = makeOptions("DELETE", null, true);
+        try {
+            await fetch(`${url}/${id}`, options).then(handleHttpErrors);
+            const newReservations = reservations.filter((r) => r.id !== id);
+            setReservations(newReservations);
+            toast.success("Reservationen er slettet");
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        const newReservations = reservations.filter((r) => r.id !== id);
-        setReservations(newReservations);
-        toast.success("Reservationen er slettet");
     }
 
-    return { reservations, getReservation, deleteReservation };
+    return { reservations, getById, destroy };
 }
 
 export default useReservations;

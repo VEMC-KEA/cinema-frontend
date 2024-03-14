@@ -6,7 +6,11 @@ import reservationMockData from "./data/reservationMockData";
 import screeningMockData from "./data/screeningMockData";
 import Modal from "../../../components/Modal";
 
-function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<SetStateAction<number | null>> }) {
+function Search({
+    setSearchedReservation
+}: {
+    setSearchedReservation: Dispatch<SetStateAction<number | null>>;
+}) {
     return (
         <div className="p-5">
             <input
@@ -14,7 +18,8 @@ function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<S
                 placeholder="Søg efter reservation"
                 className="p-2 border border-gray-400 rounded text-xl"
                 onChange={(e) => {
-                    if (e.target.value.length === 0) setSearchedReservation(null);
+                    if (e.target.value.length === 0)
+                        setSearchedReservation(null);
                     setSearchedReservation(parseInt(e.target.value));
                 }}
             />
@@ -56,7 +61,9 @@ function ScreeningHeader({ screening }: { screening: IReservationScreening }) {
         <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
             <div className="text-4xl font-bold">{screening.movie.title}</div>
             <div className="flex-row text-xl">
-                <div>{screening.date} {screening.time}</div>
+                <div>
+                    {screening.date} {screening.time}
+                </div>
                 <div>{screening.cinema.name}</div>
             </div>
         </div>
@@ -69,7 +76,11 @@ interface IReservationProps {
     setReservationDeleteModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function Reservation({ reservation, setSelectedReservation, setReservationDeleteModal }: IReservationProps) {
+function Reservation({
+    reservation,
+    setSelectedReservation,
+    setReservationDeleteModal
+}: IReservationProps) {
     return (
         <div className="px-5 w-full text-xl">
             <div className="flex gap-2 my-2">
@@ -88,13 +99,22 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
                     <tbody>
                         {reservation.tickets.map((ticket) => (
                             <tr key={ticket.id}>
-                                <td>{ticket.seatNumber}{ticket.rowName}</td>
+                                <td>
+                                    {ticket.seatNumber}
+                                    {ticket.rowName}
+                                </td>
                                 <td>{ticket.price},-</td>
                             </tr>
                         ))}
                         <tr className="font-semibold border-t">
                             <td>Samlet pris:</td>
-                            <td>{reservation.tickets.reduce((acc, ticket) => acc + ticket.price, 0)},-</td>
+                            <td>
+                                {reservation.tickets.reduce(
+                                    (acc, ticket) => acc + ticket.price,
+                                    0
+                                )}
+                                ,-
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,25 +134,31 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
     );
 }
 
-
 function Reservations() {
-    //const { reservations, getReservation, deleteReservation } = useReservations();
-    //const { screenings, getScreening } = useScreenings();
+    //const { reservations, getById, destroy } = useReservations();
+    //const { screenings, getById } = useScreenings();
     const reservations: IReservation[] = reservationMockData();
     const screenings: IReservationScreening[] = screeningMockData();
 
     const [reservationDeleteModal, setReservationDeleteModal] = useState(false);
-    const [selectedReservation, setSelectedReservation] = useState<IReservation | null>(null);
-    const [searchedReservationId, setSearchedReservationId] = useState<number | null>(null);
-    const [searchedReservation, setSearchedReservation] = useState<IReservation | null>(null);
+    const [selectedReservation, setSelectedReservation] =
+        useState<IReservation | null>(null);
+    const [searchedReservationId, setSearchedReservationId] = useState<
+        number | null
+    >(null);
+    const [searchedReservation, setSearchedReservation] =
+        useState<IReservation | null>(null);
 
     useEffect(() => {
         if (!searchedReservationId) {
             setSearchedReservation(null);
             return;
         }
-        setSearchedReservation(reservations.find((reservation) => reservation.id === searchedReservationId) || null);
-
+        setSearchedReservation(
+            reservations.find(
+                (reservation) => reservation.id === searchedReservationId
+            ) || null
+        );
     }, [searchedReservationId]);
 
     return (
@@ -140,7 +166,9 @@ function Reservations() {
             <Search setSearchedReservation={setSearchedReservationId} />
             {searchedReservation && (
                 <>
-                    <ScreeningHeader screening={searchedReservation.screening} />
+                    <ScreeningHeader
+                        screening={searchedReservation.screening}
+                    />
                     <Reservation
                         reservation={searchedReservation}
                         setSelectedReservation={setSelectedReservation}
@@ -149,27 +177,43 @@ function Reservations() {
                 </>
             )}
             {!searchedReservation &&
-                (screenings.map((screening) => {
-                    if (reservations.some((reservation) => reservation.screening.id === screening.id)) {
+                screenings.map((screening) => {
+                    if (
+                        reservations.some(
+                            (reservation) =>
+                                reservation.screening.id === screening.id
+                        )
+                    ) {
                         return (
                             <div key={screening.id}>
                                 <ScreeningHeader screening={screening} />
                                 {reservations.map((reservation) => {
-                                    if (reservation.screening.id === screening.id) {
+                                    if (
+                                        reservation.screening.id ===
+                                        screening.id
+                                    ) {
                                         return (
-                                            <Reservation key={reservation.id} reservation={reservation} setSelectedReservation={setSelectedReservation} setReservationDeleteModal={setReservationDeleteModal} />
-                                        )
+                                            <Reservation
+                                                key={reservation.id}
+                                                reservation={reservation}
+                                                setSelectedReservation={
+                                                    setSelectedReservation
+                                                }
+                                                setReservationDeleteModal={
+                                                    setReservationDeleteModal
+                                                }
+                                            />
+                                        );
                                     }
                                 })}
                             </div>
                         );
                     }
-                }))
-            }
+                })}
             {reservationDeleteModal && (
                 <DeleteModal
                     onSubmit={() => {
-                        //deleteReservation(selectedReservation.id);
+                        //destroy(selectedReservation.id);
                         console.log(selectedReservation);
                         setReservationDeleteModal(false);
                         setSelectedReservation(null);
