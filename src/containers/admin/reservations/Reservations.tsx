@@ -54,7 +54,7 @@ function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
 function ScreeningHeader({ screening }: { screening: IReservationScreening }) {
     return (
         <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
-            <div className="text-4xl font-bold">{screening.movie.title}</div>
+            <div className="text-4xl font-bold">{screening.movie.name}</div>
             <div className="flex-row text-xl">
                 <div>{screening.date} {screening.time}</div>
                 <div>{screening.cinema.name}</div>
