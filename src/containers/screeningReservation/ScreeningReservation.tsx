@@ -6,6 +6,7 @@ import screeningMockData from "./data/screeningMockData";
 import formatSeatsByRow from "./helpers/formatSeatsByRow";
 // import useScreenings from "../../hooks/useScreenings";
 // import { useEffect, useState } from "react";
+// import useScreenings from "../../hooks/useScreenings";
 
 function calcTotal(selectedSeats: ISeatShortForm[], groupDiscount: number, reservationFee: number) {
     let total = selectedSeats.reduce((acc, seat) => acc + seat.price, 0);
