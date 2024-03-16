@@ -1,16 +1,12 @@
-import { SetStateAction, createContext } from "react";
 import PageRouter from "./components/PageRouter.tsx";
-// const [selectedSeats, setSelectedSeats] = useState<ISeatShortForm[]>([]);
-
-// interface ScreeningReservationContextType {
-//     selectedSeats: string;
-//     setRole: React.Dispatch<SetStateAction<string>>;
-// }
-  
-// const screeningReservationContext = createContext<ScreeningReservationContextType>({ selectedSeats: [], setRole: () => {} });
+import ContextProvider from "./Context.tsx";
 
 function App() {
-    return <PageRouter />;
+    return (
+        <ContextProvider>
+            <PageRouter />
+        </ContextProvider>
+    );
 }
 
 export default App;

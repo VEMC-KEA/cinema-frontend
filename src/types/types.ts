@@ -28,6 +28,8 @@ interface ICinema {
 interface ICinemaShortForm {
     id: number;
     name: string;
+    groupDiscount: number;
+    reservationFee: number;
 }
 
 interface IHallShortForm {
@@ -36,6 +38,7 @@ interface IHallShortForm {
 }
 
 interface ISeatShortForm {
+    id: number;
     seatNumber: number;
     rowName: string;
     reserved: boolean;
