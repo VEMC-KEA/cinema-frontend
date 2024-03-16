@@ -7,8 +7,11 @@ import formatSeatsByRow from "./helpers/formatSeatsByRow";
 // import useScreenings from "../../hooks/useScreenings";
 // import { useEffect, useState } from "react";
 
-function calcTotal(selectedSeats: ISeatShortForm[]) {
-    return selectedSeats.reduce((acc, seat) => acc + seat.price, 0);
+function calcTotal(selectedSeats: ISeatShortForm[], groupDiscount: number, reservationFee: number) {
+    let total = selectedSeats.reduce((acc, seat) => acc + seat.price, 0);
+    if (selectedSeats.length >= 10) total = Math.floor(total - total * groupDiscount);
+    if (selectedSeats.length <= 5) total = total + reservationFee;
+    return total;
 }
 
 function SeatsHeader({ screening }: { screening: IScreening }) {
@@ -126,22 +129,36 @@ function ScreeningReservation() {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th className="px-4 py-2">Sæde</th>
-                                            <th className="px-4 py-2">Pris</th>
+                                            <th className="px-16 py-2">Sæde</th>
+                                            <th className="px-16 py-2">Pris</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {selectedSeats.map((seat) => {
                                             return (
                                                 <tr key={seat.id}>
-                                                    <td className="px-4">{seat.seatNumber + seat.rowName}</td>
-                                                    <td className="px-4">{seat.price},-</td>
+                                                    <td className="px-16 text-left">{seat.seatNumber + seat.rowName}</td>
+                                                    <td className="px-16 text-right">{seat.price},-</td>
                                                 </tr>
                                             )
                                         })}
+                                        {selectedSeats.length >= 10 && (
+                                            <tr>
+                                                <td className="px-16 text-left">Gruppe rabat</td>
+                                                <td className="px-16 text-right">-{Math.ceil(selectedSeats.reduce((acc, seat) => acc + seat.price, 0) * screening.cinema.groupDiscount)},-</td>
+                                            </tr>
+                                        )}
+                                        {
+                                            selectedSeats.length <= 5 && (
+                                                <tr>
+                                                    <td className="px-16 text-left">Reservation gebyr</td>
+                                                    <td className="px-16 text-right">{screening.cinema.reservationFee},-</td>
+                                                </tr>
+                                            )
+                                        }
                                     </tbody>
                                 </table>
-                                <div className="pt-8 pb-8 text-xl font-bold w-[25vw] text-center">Total: {calcTotal(selectedSeats)},- DKK</div>
+                                <div className="pt-8 pb-8 text-xl font-bold w-[25vw] text-center">Total: {calcTotal(selectedSeats, screening.cinema.groupDiscount, screening.cinema.reservationFee)},- DKK</div>
                                 <div className="w-[13vw] text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300">Reservér Billetter</div>
                             </>
                         )
