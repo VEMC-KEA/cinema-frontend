@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Context } from "../../Context";
 import PageLayout from "../../components/PageLayout";
 import { IScreening, ISeatShortForm } from "../../types/types";
