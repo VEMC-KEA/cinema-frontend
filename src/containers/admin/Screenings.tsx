@@ -160,7 +160,9 @@ function Screenings() {
             },
             cinema: {
                 id: 1,
-                name: "Cinema City"
+                name: "Cinema City",
+                groupDiscount: 0.07,
+                reservationFee: 5
             },
             date: "2021-10-10",
             time: "20:00",
@@ -179,7 +181,9 @@ function Screenings() {
             },
             cinema: {
                 id: 1,
-                name: "Cinema City"
+                name: "Cinema City",
+                groupDiscount: 0.07,
+                reservationFee: 5
             },
             date: "2021-10-10",
             time: "22:00",
@@ -193,7 +197,9 @@ function Screenings() {
             },
             cinema: {
                 id: 1,
-                name: "Cinema City"
+                name: "Cinema City",
+                groupDiscount: 0.07,
+                reservationFee: 5
             },
             hall: {
                 id: 1,
