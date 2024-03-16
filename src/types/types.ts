@@ -2,7 +2,7 @@ interface IScreening {
     id?: number;
     movie: IMovieShortForm;
     hall: IHallShortFormWithSeats;
-    cinema: ICinemaShortForm;
+    cinema: ICinemaScreening;
     date: string;
     time: string;
     is3D: boolean;
@@ -26,6 +26,11 @@ interface ICinema {
 }
 
 interface ICinemaShortForm {
+    id: number;
+    name: string;
+}
+
+interface ICinemaScreening {
     id: number;
     name: string;
     groupDiscount: number;
