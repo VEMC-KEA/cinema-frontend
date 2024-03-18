@@ -5,6 +5,7 @@ import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
 function useScreenings(movieId?: number, cinemaId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
+    const [futureScreenings, setFutureScreenings] = useState<IScreening[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     let url = !!movieId
         ? import.meta.env.VITE_API_URL + "/screenings?movieId=" + movieId
@@ -18,6 +19,10 @@ function useScreenings(movieId?: number, cinemaId?: number) {
                 return;
             }
             setScreenings(response);
+            const futureScreeningsByDate = response.filter(
+                (s: IScreening) => new Date(s.date + " " + s.time) >= new Date()
+            );
+            setFutureScreenings(futureScreeningsByDate);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
@@ -69,7 +74,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
         }
     }
 
-    return { screenings, isLoading, getById, add, destroy };
+    return { screenings, futureScreenings, isLoading, getById, add, destroy };
 }
 
 export default useScreenings;

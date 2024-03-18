@@ -42,7 +42,10 @@ function Screenings({ movie }: { movie: IMovie }) {
     const cinemaId = searchParams.get("cinemaId")
         ? Number(searchParams.get("cinemaId"))
         : undefined;
-    const { screenings, isLoading } = useScreenings(movie.id, cinemaId);
+    const { futureScreenings: screenings, isLoading } = useScreenings(
+        movie.id,
+        cinemaId
+    );
     const screeningDaysSet = new Set();
     screenings.forEach((screening) => {
         screeningDaysSet.add(screening.date);
@@ -50,9 +53,10 @@ function Screenings({ movie }: { movie: IMovie }) {
     const screeningDays = Array.from(screeningDaysSet).map((date) =>
         screenings.filter((screening) => screening.date === date)
     );
+    screeningDays.sort((a, b) => a[0].date.localeCompare(b[0].date));
 
     return (
-        <div className="flex overflow-x-scroll">
+        <div className="flex overflow-x-auto">
             {isLoading && <p>Loading...</p>}
             {!isLoading &&
                 !!screenings.length &&
