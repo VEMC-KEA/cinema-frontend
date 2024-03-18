@@ -24,12 +24,6 @@ function NavBar() {
                 <LuPopcorn className="text-4xl text-red-600" />
                 <Link
                     className="font-semibold text-stone-700 hover:text-stone-400 transition-colors"
-                    to="/movies"
-                >
-                    Film
-                </Link>
-                <Link
-                    className="font-semibold text-stone-700 hover:text-stone-400 transition-colors"
                     to="/cinemas"
                 >
                     Biografer
