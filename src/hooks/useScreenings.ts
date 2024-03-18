@@ -3,15 +3,20 @@ import type { IScreening } from "../types/types";
 import toast from "react-hot-toast";
 import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
-function useScreenings() {
+function useScreenings(movieId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
-    const url = import.meta.env.VITE_API_URL + "/screenings";
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const url = !!movieId
+        ? import.meta.env.VITE_API_URL + "/screenings?movieId=" + movieId
+        : import.meta.env.VITE_API_URL + "/screenings";
 
     async function getAll() {
         try {
             const response = await fetch(url).then(handleHttpErrors);
-            const data = await response.json();
-            setScreenings(data);
+            if (response.status === 204) {
+                return;
+            }
+            setScreenings(response);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
@@ -20,7 +25,8 @@ function useScreenings() {
     }
 
     useEffect(() => {
-        void getAll();
+        setIsLoading(true);
+        getAll().then(() => setIsLoading(false));
     }, []);
 
     async function getById(id: number): Promise<IScreening | undefined> {
@@ -62,7 +68,7 @@ function useScreenings() {
         }
     }
 
-    return { screenings, getById, add, destroy };
+    return { screenings, isLoading, getById, add, destroy };
 }
 
 export default useScreenings;
