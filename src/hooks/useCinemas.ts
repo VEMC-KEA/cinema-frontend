@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { ICinema, IHall, IMovie } from "../types/types.ts";
+import type { ICinema, IHall } from "../types/types.ts";
 import { handleHttpErrors } from "../utils/fetchUtils.ts";
 import toast from "react-hot-toast";
 
 function useCinemas() {
     const [cinemas, setCinemas] = useState<ICinema[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const url = import.meta.env.VITE_API_URL + "/cinemas";
 
@@ -25,28 +25,13 @@ function useCinemas() {
     }
 
     useEffect(() => {
-        setLoading(true);
-        getAll().then(() => setLoading(false));
+        setIsLoading(true);
+        getAll().then(() => setIsLoading(false));
     }, []);
 
     async function getById(id: number): Promise<ICinema | undefined> {
         try {
             const response = await fetch(`${url}/${id}`).then(handleHttpErrors);
-            return await response.json();
-        } catch (e: unknown) {
-            if (e instanceof Error) {
-                toast.error(e.message);
-            }
-        }
-    }
-
-    async function getMoviesByCinemaId(
-        cinemaId: number
-    ): Promise<IMovie[] | undefined> {
-        try {
-            const response = await fetch(`${url}/${cinemaId}/movies`).then(
-                handleHttpErrors
-            );
             return await response.json();
         } catch (e: unknown) {
             if (e instanceof Error) {
@@ -72,9 +57,8 @@ function useCinemas() {
 
     return {
         cinemas,
-        loading,
+        isLoading,
         getById,
-        getMoviesByCinemaId,
         getHallsByCinemaId
     };
 }

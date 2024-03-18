@@ -23,12 +23,12 @@ function Cinema({ cinema }: { cinema: ICinema }) {
 }
 
 function Cinemas() {
-    const { cinemas, loading } = useCinemas();
+    const { cinemas, isLoading } = useCinemas();
 
     return (
         <PageLayout>
-            {loading && <p>Loading...</p>}
-            {!loading && (
+            {isLoading && <p>Loading...</p>}
+            {!isLoading && (
                 <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
                     {cinemas.map((cinema) => (
                         <Cinema

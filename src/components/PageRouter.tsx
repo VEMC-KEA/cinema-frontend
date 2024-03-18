@@ -6,6 +6,7 @@ import AuthProvider from "../security/AuthProvider.tsx";
 import Login from "../security/Login.tsx";
 import LogOut from "../security/LogOut.tsx";
 import RequireAuth from "../security/RequireAuth.tsx";
+import Movies from "../containers/Movies.tsx";
 
 function PageRouter() {
     return (
@@ -21,8 +22,11 @@ function PageRouter() {
                         element={<Cinemas />}
                     />
                     {/* <Route path="/*" element={<Cinemas />} />
-                <Route path="/movies" element={<Movies />} />
                 <Route path="/reservations" element={<Reservations />} /> */}
+                    <Route
+                        path="/movies"
+                        element={<Movies />}
+                    />
                     <Route
                         path="/login"
                         element={<Login />}
