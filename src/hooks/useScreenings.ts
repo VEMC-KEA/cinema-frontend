@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { IScreening } from "../types/types";
+import type { IScreening, IScreeningFormData } from "../types/types";
 import toast from "react-hot-toast";
 import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
@@ -37,8 +37,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
 
     async function getById(id: number): Promise<IScreening | undefined> {
         try {
-            const response = await fetch(`${url}/${id}`).then(handleHttpErrors);
-            return await response.json();
+            return await fetch(`${url}/${id}`).then(handleHttpErrors);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
@@ -46,11 +45,12 @@ function useScreenings(movieId?: number, cinemaId?: number) {
         }
     }
 
-    async function add(screening: IScreening) {
+    async function add(screening: IScreeningFormData) {
         const options = makeOptions("POST", screening, true);
         try {
-            const response = await fetch(url, options).then(handleHttpErrors);
-            const newScreening = await response.json();
+            const newScreening = await fetch(url, options).then(
+                handleHttpErrors
+            );
             setScreenings([...screenings, newScreening]);
             toast.success("Forestillingen er oprettet");
         } catch (e: unknown) {
@@ -60,7 +60,8 @@ function useScreenings(movieId?: number, cinemaId?: number) {
         }
     }
 
-    async function destroy(id: number) {
+    async function destroy(id: number | undefined) {
+        if (!id) return;
         const options = makeOptions("DELETE", null, true);
         try {
             await fetch(`${url}/${id}`, options).then(handleHttpErrors);

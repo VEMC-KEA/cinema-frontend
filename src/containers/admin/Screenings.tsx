@@ -4,7 +4,7 @@ import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
 import ScreeningForm from "./components/ScreeningForm.tsx";
 import { SubmitHandler } from "react-hook-form";
-//import useScreenings from "../hooks/useScreenings.ts";
+import useScreenings from "../../hooks/useScreenings.ts";
 
 interface ICreateModalProps {
     onSubmit: SubmitHandler<IScreeningFormData>;
@@ -73,7 +73,7 @@ function Screening({
             <td>{screening.hall.number}</td>
             <td>{screening.date}</td>
             <td>{screening.time}</td>
-            <td>{screening.is3D ? "3D" : "2D"}</td>
+            <td>{screening.is3d ? "3D" : "2D"}</td>
             <td className="text-center">
                 <button
                     className="p-1 bg-red-500 text-white rounded hover:bg-red-600"
@@ -140,71 +140,12 @@ function ScreeningTable({
 }
 
 function Screenings() {
-    //const {screenings, getById, add, update, destroy} = useScreening();
+    const { screenings, add, destroy } = useScreenings();
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedScreening, setSelectedScreening] =
         useState<IScreening | null>(null);
 
-    const screenings: IScreening[] = [
-        {
-            id: 1,
-            movie: {
-                id: 2,
-                name: "The Matrix"
-            },
-            hall: {
-                id: 1,
-                number: 1,
-                seats: []
-            },
-            cinema: {
-                id: 1,
-                name: "Cinema City"
-            },
-            date: "2021-10-10",
-            time: "20:00",
-            is3D: false
-        },
-        {
-            id: 2,
-            movie: {
-                id: 1,
-                name: "Die Hard"
-            },
-            hall: {
-                id: 1,
-                number: 1,
-                seats: []
-            },
-            cinema: {
-                id: 1,
-                name: "Cinema City"
-            },
-            date: "2021-10-10",
-            time: "22:00",
-            is3D: false
-        },
-        {
-            id: 3,
-            movie: {
-                id: 2,
-                name: "The Matrix"
-            },
-            cinema: {
-                id: 1,
-                name: "Cinema City"
-            },
-            hall: {
-                id: 1,
-                number: 1,
-                seats: []
-            },
-            date: "2021-10-10",
-            time: "23:00",
-            is3D: true
-        }
-    ];
     return (
         <PageLayout>
             <ScreeningTable
@@ -216,9 +157,7 @@ function Screenings() {
             {showCreateModal && (
                 <CreateModal
                     onSubmit={(screening: IScreeningFormData) => {
-                        //TODO: Map IScreeningFormData to IScreening object, when backend is ready
-                        //add(screening);
-                        console.log(screening);
+                        void add(screening);
                         setShowCreateModal(false);
                     }}
                     onClose={() => {
@@ -229,8 +168,8 @@ function Screenings() {
             {showDeleteModal && (
                 <DeleteModal
                     onSubmit={() => {
-                        //destroy(selectedScreening.id);
-                        console.log(selectedScreening);
+                        if (selectedScreening)
+                            void destroy(selectedScreening.id);
                         setShowDeleteModal(false);
                         setSelectedScreening(null);
                     }}
