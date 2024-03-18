@@ -3,12 +3,13 @@ import type { IScreening } from "../types/types";
 import toast from "react-hot-toast";
 import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
-function useScreenings(movieId?: number) {
+function useScreenings(movieId?: number, cinemaId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const url = !!movieId
+    let url = !!movieId
         ? import.meta.env.VITE_API_URL + "/screenings?movieId=" + movieId
         : import.meta.env.VITE_API_URL + "/screenings";
+    url += !!cinemaId ? "&cinemaId=" + cinemaId : "";
 
     async function getAll() {
         try {

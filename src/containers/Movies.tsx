@@ -38,7 +38,11 @@ function ScreeningDayGroup({ screenings }: { screenings: IScreening[] }) {
 }
 
 function Screenings({ movie }: { movie: IMovie }) {
-    const { screenings, isLoading } = useScreenings(movie.id);
+    const [searchParams] = useSearchParams();
+    const cinemaId = searchParams.get("cinemaId")
+        ? Number(searchParams.get("cinemaId"))
+        : undefined;
+    const { screenings, isLoading } = useScreenings(movie.id, cinemaId);
     const screeningDaysSet = new Set();
     screenings.forEach((screening) => {
         screeningDaysSet.add(screening.date);
@@ -51,12 +55,18 @@ function Screenings({ movie }: { movie: IMovie }) {
         <div className="flex overflow-x-scroll">
             {isLoading && <p>Loading...</p>}
             {!isLoading &&
+                !!screenings.length &&
                 screeningDays.map((screeningsByDay, index) => (
                     <ScreeningDayGroup
                         screenings={screeningsByDay}
                         key={index}
                     />
                 ))}
+            {!isLoading && !screenings.length && (
+                <div className="text-stone-600 p-4">
+                    Ingen forestillinger for denne film endnu
+                </div>
+            )}
         </div>
     );
 }
