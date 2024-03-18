@@ -23,17 +23,21 @@ function Cinema({ cinema }: { cinema: ICinema }) {
 }
 
 function Cinemas() {
-    const { cinemas } = useCinemas();
+    const { cinemas, loading } = useCinemas();
+
     return (
         <PageLayout>
-            <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
-                {cinemas.map((cinema) => (
-                    <Cinema
-                        key={cinema.id}
-                        cinema={cinema}
-                    />
-                ))}
-            </div>
+            {loading && <p>Loading...</p>}
+            {!loading && (
+                <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
+                    {cinemas.map((cinema) => (
+                        <Cinema
+                            key={cinema.id}
+                            cinema={cinema}
+                        />
+                    ))}
+                </div>
+            )}
         </PageLayout>
     );
 }
