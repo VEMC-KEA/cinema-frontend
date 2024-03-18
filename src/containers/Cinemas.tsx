@@ -8,11 +8,7 @@ function Cinema({ cinema }: { cinema: ICinema }) {
     return (
         <div
             className="cursor-pointer relative flex flex-col bg-white rounded-xl min-h-80 h-[60vh] w-80 justify-end overflow-hidden"
-            onClick={() =>
-                navigate(
-                    `/movies?cinemaId=${cinema.id}&cinemaName=${cinema.name}`
-                )
-            }
+            onClick={() => navigate(`/movies?cinemaId=${cinema.id}`)}
         >
             <div className="z-10 text-stone-800 text-2xl bg-white w-full p-2 text-center">
                 {cinema.name}

@@ -31,8 +31,7 @@ function useCinemas() {
 
     async function getById(id: number): Promise<ICinema | undefined> {
         try {
-            const response = await fetch(`${url}/${id}`).then(handleHttpErrors);
-            return await response.json();
+            return await fetch(`${url}/${id}`).then(handleHttpErrors);
         } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
@@ -44,10 +43,9 @@ function useCinemas() {
         cinemaId: number
     ): Promise<IHall[] | undefined> {
         try {
-            const response = await fetch(`${url}/${cinemaId}/halls`).then(
+            return await fetch(`${url}/${cinemaId}/halls`).then(
                 handleHttpErrors
             );
-            return await response.json();
         } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
