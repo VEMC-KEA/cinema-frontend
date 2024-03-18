@@ -5,7 +5,7 @@ interface IScreening {
     cinema: ICinemaShortForm;
     date: string;
     time: string;
-    is3D: boolean;
+    is3d: boolean;
 }
 
 interface IScreeningFormData {
@@ -14,7 +14,7 @@ interface IScreeningFormData {
     hall?: IHallShortForm;
     date?: string;
     time?: string;
-    is3D?: boolean;
+    is3d?: boolean;
 }
 
 interface ICinema {

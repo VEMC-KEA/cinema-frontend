@@ -14,7 +14,9 @@ function Screening({ screening }: { screening: IScreening }) {
             className="bg-green-600 rounded p-3 text-stone-200 cursor-pointer hover:bg-green-700 transition-colors duration-300"
             onClick={() => navigate("/reservation?screeningId=" + screening.id)}
         >
-            <p>Sal {screening.hall.number}</p>
+            <p>
+                Sal {screening.hall.number} {screening.is3d ? "- 3D" : ""}
+            </p>
             <p className="text-2xl font-bold">{formatTime(screening.time)}</p>
         </div>
     );
