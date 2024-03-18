@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 function useCinemas() {
     const [cinemas, setCinemas] = useState<ICinema[]>([]);
-    //TODO: Remember isLoading
+    const [loading, setLoading] = useState<boolean>(true);
 
     const url = import.meta.env.VITE_API_URL + "/cinemas";
 
@@ -25,7 +25,8 @@ function useCinemas() {
     }
 
     useEffect(() => {
-        void getAll();
+        setLoading(true);
+        getAll().then(() => setLoading(false));
     }, []);
 
     async function getById(id: number): Promise<ICinema | undefined> {
@@ -69,7 +70,13 @@ function useCinemas() {
         }
     }
 
-    return { cinemas, getById, getMoviesByCinemaId, getHallsByCinemaId };
+    return {
+        cinemas,
+        loading,
+        getById,
+        getMoviesByCinemaId,
+        getHallsByCinemaId
+    };
 }
 
 export default useCinemas;
