@@ -54,7 +54,7 @@ function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
 function ScreeningHeader({ screening }: { screening: IReservationScreening }) {
     return (
         <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
-            <div className="text-4xl font-bold">{screening.movie.name}</div>
+            <div className="text-4xl font-bold">{screening.movie.title}</div>
             <div className="flex-row text-xl">
                 <div>{screening.date} {screening.time}</div>
                 <div>{screening.cinema.name}</div>
@@ -88,7 +88,7 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
                     <tbody>
                         {reservation.tickets.map((ticket) => (
                             <tr key={ticket.id}>
-                                <td>{ticket.seatNumber}{ticket.rowName}</td>
+                                <td>{ticket.seat.number}{ticket.seat.rowLetter}</td>
                                 <td>{ticket.price},-</td>
                             </tr>
                         ))}

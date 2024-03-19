@@ -24,6 +24,17 @@ function useReservations() {
         return await response.json();
     }
 
+    async function postReservation(): Promise<IReservation | undefined> {
+        const response = await fetch(`${url}`, {
+            method: "POST"
+        });
+        if (!response.ok) {
+            toast.error("Kunne ikke slette reservationen");
+            return;
+        }
+        return await response.json();
+    }
+
     async function deleteReservation(id: number) {
         const response = await fetch(`${url}/${id}`, {
             method: "DELETE"

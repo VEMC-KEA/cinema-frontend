@@ -12,7 +12,7 @@ function screeningMockData(): IScreening {
         },
         movie: {
             id: 1,
-            name: "The Shawshank Redemption"
+            title: "The Shawshank Redemption"
         },
         hall: {
             id: 1,
@@ -20,213 +20,153 @@ function screeningMockData(): IScreening {
             seats: [
                 {
                     id: 1,
-                    seatNumber: 1,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 1,
+                    rowLetter: "A"
                 },
                 {
                     id: 2,
-                    seatNumber: 2,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 2,
+                    rowLetter: "A"
                 },
                 {
                     id: 3,
-                    seatNumber: 3,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 3,
+                    rowLetter: "A"
                 },
                 {
                     id: 4,
-                    seatNumber: 4,
-                    rowName: "A",
-                    reserved: true,
-                    price: 8
+                    number: 4,
+                    rowLetter: "A"
                 },
                 {
                     id: 5,
-                    seatNumber: 5,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 5,
+                    rowLetter: "A"
                 },
                 {
                     id: 6,
-                    seatNumber: 6,
-                    rowName: "A",
-                    reserved: true,
-                    price: 8
+                    number: 6,
+                    rowLetter: "A"
                 },
                 {
                     id: 7,
-                    seatNumber: 7,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 7,
+                    rowLetter: "A"
                 },
                 {
                     id: 8,
-                    seatNumber: 8,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 8,
+                    rowLetter: "A"
                 },
                 {
                     id: 9,
-                    seatNumber: 9,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 9,
+                    rowLetter: "A"
                 },
                 {
                     id: 10,
-                    seatNumber: 10,
-                    rowName: "A",
-                    reserved: false,
-                    price: 8
+                    number: 10,
+                    rowLetter: "A"
                 },
                 {
                     id: 11,
-                    seatNumber: 1,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 1,
+                    rowLetter: "B"
                 },
                 {
                     id: 12,
-                    seatNumber: 2,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 2,
+                    rowLetter: "B"
                 },
                 {
                     id: 13,
-                    seatNumber: 3,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 3,
+                    rowLetter: "B"
                 },
                 {
                     id: 14,
-                    seatNumber: 4,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 4,
+                    rowLetter: "B"
                 },
                 {
                     id: 15,
-                    seatNumber: 5,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 5,
+                    rowLetter: "B"
                 },
                 {
                     id: 16,
-                    seatNumber: 6,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 6,
+                    rowLetter: "B"
                 },
                 {
                     id: 17,
-                    seatNumber: 7,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 7,
+                    rowLetter: "B"
                 },
                 {
                     id: 18,
-                    seatNumber: 8,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 8,
+                    rowLetter: "B"
                 },
                 {
                     id: 19,
-                    seatNumber: 9,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 9,
+                    rowLetter: "B"
                 },
                 {
                     id: 20,
-                    seatNumber: 10,
-                    rowName: "B",
-                    reserved: false,
-                    price: 8
+                    number: 10,
+                    rowLetter: "B"
                 },
                 {
                     id: 21,
-                    seatNumber: 1,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 1,
+                    rowLetter: "C"
                 },
                 {
                     id: 22,
-                    seatNumber: 2,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 2,
+                    rowLetter: "C"
                 },
                 {
                     id: 23,
-                    seatNumber: 3,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 3,
+                    rowLetter: "C"
                 },
                 {
                     id: 24,
-                    seatNumber: 4,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 4,
+                    rowLetter: "C"
                 },
                 {
                     id: 25,
-                    seatNumber: 5,
-                    rowName: "C",
-                    reserved: true,
-                    price: 10
+                    number: 5,
+                    rowLetter: "C"
                 },
                 {
                     id: 26,
-                    seatNumber: 6,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 6,
+                    rowLetter: "C"
                 },
                 {
                     id: 27,
-                    seatNumber: 7,
-                    rowName: "C",
-                    reserved: true,
-                    price: 10
+                    number: 7,
+                    rowLetter: "C"
                 },
                 {
                     id: 28,
-                    seatNumber: 8,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 8,
+                    rowLetter: "C"
                 },
                 {
                     id: 29,
-                    seatNumber: 9,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 9,
+                    rowLetter: "C"
                 },
                 {
                     id: 30,
-                    seatNumber: 10,
-                    rowName: "C",
-                    reserved: false,
-                    price: 10
+                    number: 10,
+                    rowLetter: "C"
                 }
             ]
         },

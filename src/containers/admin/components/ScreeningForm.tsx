@@ -92,7 +92,7 @@ function CreateFormSelects({
                             isSearchable={true}
                             options={movies.map((movie) => ({
                                 value: movie.id,
-                                label: movie.name
+                                label: movie.title
                             }))}
                             onChange={(movie) => {
                                 if (!movie) return;
@@ -102,7 +102,7 @@ function CreateFormSelects({
                                 if (foundMovie) {
                                     setSelectedMovieOption({
                                         value: foundMovie.id,
-                                        label: foundMovie.name
+                                        label: foundMovie.title
                                     });
                                     setValue("movie", foundMovie);
                                 }

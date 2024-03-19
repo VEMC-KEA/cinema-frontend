@@ -5,8 +5,8 @@ function reservationMockData(): IReservation[] {
         {
             id: 1,
             tickets: [
-                { id: 1, seatNumber: 1, rowName: "A", price: 10 },
-                { id: 2, seatNumber: 2, rowName: "A", price: 10 }
+                { id: 1, seat: { id: 1, number: 1, rowLetter: "A" }, price: 10, completed: true },
+                { id: 2, seat: { id: 2, number: 1, rowLetter: "A" }, price: 10, completed: true }
             ],
             screening: {
                 id: 1,
@@ -16,7 +16,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 1,
-                    name: "The Shawshank Redemption"
+                    title: "The Shawshank Redemption"
                 },
                 hall: {
                     id: 1,
@@ -31,8 +31,8 @@ function reservationMockData(): IReservation[] {
         {
             id: 2,
             tickets: [
-                { id: 3, seatNumber: 3, rowName: "B", price: 15 },
-                { id: 4, seatNumber: 4, rowName: "B", price: 15 }
+                { id: 3, seat: { id: 3, number: 3, rowLetter: "A" }, price: 10, completed: true },
+                { id: 4, seat: { id: 5, number: 5, rowLetter: "A" }, price: 10, completed: true }
             ],
             screening: {
                 id: 2,
@@ -42,7 +42,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 2,
-                    name: "The Godfather"
+                    title: "The Godfather"
                 },
                 hall: {
                     id: 2,
@@ -57,8 +57,8 @@ function reservationMockData(): IReservation[] {
         {
             id: 3,
             tickets: [
-                { id: 5, seatNumber: 5, rowName: "C", price: 20 },
-                { id: 6, seatNumber: 6, rowName: "C", price: 20 }
+                { id: 5, seat: { id: 6, number: 6, rowLetter: "A" }, price: 10, completed: true },
+                { id: 6, seat: { id: 7, number: 8, rowLetter: "A" }, price: 10, completed: true }
             ],
             screening: {
                 id: 3,
@@ -68,7 +68,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 3,
-                    name: "Pulp Fiction"
+                    title: "Pulp Fiction"
                 },
                 hall: {
                     id: 3,
@@ -83,8 +83,8 @@ function reservationMockData(): IReservation[] {
         {
             id: 4,
             tickets: [
-                { id: 7, seatNumber: 7, rowName: "D", price: 25 },
-                { id: 8, seatNumber: 8, rowName: "D", price: 25 }
+                { id: 7, seat: { id: 10, number: 8, rowLetter: "A" }, price: 10, completed: true },
+                { id: 8, seat: { id: 11, number: 10, rowLetter: "A" }, price: 10, completed: true }
             ],
             screening: {
                 id: 1,
@@ -94,7 +94,7 @@ function reservationMockData(): IReservation[] {
                 },
                 movie: {
                     id: 1,
-                    name: "The Shawshank Redemption"
+                    title: "The Shawshank Redemption"
                 },
                 hall: {
                     id: 1,

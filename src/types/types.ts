@@ -6,6 +6,7 @@ interface IScreening {
     date: string;
     time: string;
     is3D: boolean;
+    tickets?: ITicket[];
 }
 
 interface IScreeningFormData {
@@ -21,6 +22,9 @@ interface ICinema {
     id: number;
     name: string;
     imageUrl: string;
+    groupDiscount: number;
+    movieBasePrice: number;
+    reservationFee: number;
     movies: IMovieShortForm[];
     halls: IHallShortForm[];
 }
@@ -44,10 +48,8 @@ interface IHallShortForm {
 
 interface ISeatShortForm {
     id: number;
-    seatNumber: number;
-    rowName: string;
-    reserved: boolean;
-    price: number;
+    number: number;
+    rowLetter: string;
 }
 
 interface IHallShortFormWithSeats extends IHallShortForm {
@@ -56,7 +58,7 @@ interface IHallShortFormWithSeats extends IHallShortForm {
 
 interface IMovieShortForm {
     id: number;
-    name: string;
+    title: string;
 }
 interface IReservation {
     id: number;
@@ -67,9 +69,9 @@ interface IReservation {
 
 interface ITicket {
     id: number;
-    seatNumber: number;
-    rowName: string;
+    seat: ISeatShortForm;
     price: number;
+    completed: boolean;
 }
 
 interface IReservationScreening {

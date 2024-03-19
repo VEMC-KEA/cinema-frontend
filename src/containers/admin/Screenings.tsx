@@ -68,7 +68,7 @@ function Screening({
 }: IScreeningProps) {
     return (
         <tr className="border-b">
-            <td className="p-1">{screening.movie.name}</td>
+            <td className="p-1">{screening.movie.title}</td>
             <td>{screening.cinema.name}</td>
             <td>{screening.hall.number}</td>
             <td>{screening.date}</td>
@@ -151,7 +151,7 @@ function Screenings() {
             id: 1,
             movie: {
                 id: 2,
-                name: "The Matrix"
+                title: "The Matrix"
             },
             hall: {
                 id: 1,
@@ -172,7 +172,7 @@ function Screenings() {
             id: 2,
             movie: {
                 id: 1,
-                name: "Die Hard"
+                title: "Die Hard"
             },
             hall: {
                 id: 1,
@@ -193,7 +193,7 @@ function Screenings() {
             id: 3,
             movie: {
                 id: 2,
-                name: "The Matrix"
+                title: "The Matrix"
             },
             cinema: {
                 id: 1,
