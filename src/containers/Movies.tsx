@@ -6,6 +6,10 @@ import useScreenings from "../hooks/useScreenings.ts";
 import { formatDate, formatTime } from "../utils/formatUtils.ts";
 import useCinemas from "../hooks/useCinemas.ts";
 import { useEffect, useState } from "react";
+import {
+    MdOutlineArrowBackIosNew,
+    MdOutlineArrowForwardIos
+} from "react-icons/md";
 
 function Screening({ screening }: { screening: IScreening }) {
     const navigate = useNavigate();
@@ -17,7 +21,9 @@ function Screening({ screening }: { screening: IScreening }) {
             <p>
                 Sal {screening.hall.number} {screening.is3d ? "- 3D" : ""}
             </p>
-            <p className="text-2xl font-bold">{formatTime(screening.time)}</p>
+            <p className="lg:text-2xl font-bold text-center">
+                {formatTime(screening.time)}
+            </p>
         </div>
     );
 }
@@ -25,7 +31,7 @@ function Screening({ screening }: { screening: IScreening }) {
 function ScreeningDayGroup({ screenings }: { screenings: IScreening[] }) {
     screenings.sort((a, b) => a.time.localeCompare(b.time));
     return (
-        <div className="flex flex-col gap-2 border-r border-stone-300 p-2 justify-start">
+        <div className="flex flex-col gap-2 border-r border-stone-300 p-2 justify-start w-[12.5%] flex-grow-0 flex-shrink-0">
             <h3 className="text-black font-semibold text-lg">
                 {formatDate(screenings[0].date)}
             </h3>
@@ -57,12 +63,36 @@ function Screenings({ movie }: { movie: IMovie }) {
     );
     screeningDays.sort((a, b) => a[0].date.localeCompare(b[0].date));
 
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(8);
+
+    const [screeningDaysToDisplay, setScreeningDaysToDisplay] = useState<
+        IScreening[][]
+    >([]);
+
+    useEffect(() => {
+        setScreeningDaysToDisplay(screeningDays.slice(startIndex, endIndex));
+    }, [startIndex, endIndex, isLoading]);
+
     return (
-        <div className="flex overflow-x-auto">
+        <div className="flex relative w-full">
             {isLoading && <p>Loading...</p>}
+            {!isLoading && startIndex > 0 && (
+                <div
+                    className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-stone-100 to-transparent flex items-center cursor-pointer"
+                    onClick={() => {
+                        setStartIndex((prev) => prev - 1);
+                        setEndIndex((prev) => prev - 1);
+                    }}
+                >
+                    <div className="w-full h-full hover:scale-110 flex justify-center items-center">
+                        <MdOutlineArrowBackIosNew className="text-2xl" />
+                    </div>
+                </div>
+            )}
             {!isLoading &&
                 !!screenings.length &&
-                screeningDays.map((screeningsByDay, index) => (
+                screeningDaysToDisplay.map((screeningsByDay, index) => (
                     <ScreeningDayGroup
                         screenings={screeningsByDay}
                         key={index}
@@ -73,13 +103,26 @@ function Screenings({ movie }: { movie: IMovie }) {
                     Ingen forestillinger for denne film endnu
                 </div>
             )}
+            {!isLoading && endIndex < screeningDays.length && (
+                <div
+                    className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-stone-100 to-transparent flex justify-center items-center cursor-pointer"
+                    onClick={() => {
+                        setStartIndex((prev) => prev + 1);
+                        setEndIndex((prev) => prev + 1);
+                    }}
+                >
+                    <div className="w-full h-full hover:scale-110 flex justify-center items-center">
+                        <MdOutlineArrowForwardIos className="text-2xl" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
 function Movie({ movie }: { movie: IMovie }) {
     return (
-        <div className="grid grid-cols-5 p-6">
+        <div className="grid grid-cols-5 p-6 gap-2">
             <img
                 src={movie.imageUrl}
                 alt={movie.title}
@@ -136,7 +179,7 @@ function Movies() {
 
     return (
         <PageLayout>
-            <div className="px-80">
+            <div className="2xl:px-72">
                 {!!cinema && <CinemaDetails cinema={cinema} />}
                 <div className="py-8 border-y border-stone-300 my-10">
                     <div className="text-4xl font-bold py-2">Program</div>
