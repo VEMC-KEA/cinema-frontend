@@ -6,68 +6,133 @@ import formatSeatsByRow from "./helpers/formatSeatsByRow";
 import useScreenings from "../../hooks/useScreenings";
 import useCinemas from "../../hooks/useCinemas";
 import toast from "react-hot-toast";
+import useReservations from "../../hooks/useReservations";
+import calcTotal from "./helpers/calcTotal";
+import Modal from "../../components/Modal";
 
-function calcTotal(selectedSeats: ISeatShortForm[], groupDiscount: number, reservationFee: number, movieBasePrice: number) {
-    let total = selectedSeats.reduce((acc) => acc + movieBasePrice, 0);
-    if (selectedSeats.length >= 10) total = Math.floor(total - total * groupDiscount);
-    if (selectedSeats.length <= 5) total = total + reservationFee;
-    return total;
+function ConfirmModal({ onSubmit, onClose }: { onSubmit: () => void, onClose: () => void }) {
+    return (
+        <Modal>
+            <h2 className="p-4 text-2xl">
+                Vil du oprette reservationen?
+            </h2>
+            <div className="flex gap-4 justify-center items-center mt-5">
+                <button
+                    className="w-full p-1 bg-lime-700 text-white rounded hover:bg-lime-800"
+                    onClick={onSubmit}
+                >
+                    Opret
+                </button>
+                <button
+                    className="w-full p-1 bg-rose-900 text-white rounded hover:bg-rose-950"
+                    onClick={onClose}
+                >
+                    Annullér
+                </button>
+            </div>
+        </Modal>
+    );
 }
 
-function SideBar() {
-    const { selectedSeats, cinema, screening } = useContext(Context);
+function CompleteReservationModal({ onSubmit }: { onSubmit: () => void }) {
     return (
-        <>
-            {cinema && screening && (
-                <>
-                    <div className="pt-20 pb-8 text-xl font-bold border-b w-[20vw] text-center">Dit køb</div>
-                    {
-                        selectedSeats.length > 0 && (
-                            <>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th className="px-16 py-2">Sæde</th>
-                                            <th className="px-16 py-2">Pris</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {selectedSeats.map((seat) => {
-                                            return (
-                                                <tr key={seat.id}>
-                                                    <td className="px-16 text-left">{seat.number + seat.rowLetter}</td>
-                                                    <td className="px-16 text-right">{cinema.movieBasePrice},-</td>
-                                                </tr>
-                                            )
-                                        })}
-                                        {selectedSeats.length >= 10 && (
-                                            <tr>
-                                                <td className="px-16 text-left">Gruppe rabat</td>
-                                                <td className="px-16 text-right">-{Math.ceil(selectedSeats.reduce((acc) => acc + cinema.movieBasePrice, 0) * screening.cinema.groupDiscount)},-</td>
-                                            </tr>
-                                        )}
-                                        {
-                                            selectedSeats.length <= 5 && (
-                                                <tr>
-                                                    <td className="px-16 text-left">Reservation gebyr</td>
-                                                    <td className="px-16 text-right">{cinema.reservationFee},-</td>
-                                                </tr>
-                                            )
-                                        }
-                                    </tbody>
-                                </table>
-                                <div className="pt-8 pb-8 text-xl font-bold w-[25vw] text-center">Total: {calcTotal(selectedSeats, cinema.groupDiscount, cinema.reservationFee, cinema.movieBasePrice)},- DKK</div>
-                                <div className="w-[13vw] text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300">Reservér Billetter</div>
-                            </>
-                        )
-                    }
-                </>
-            )}
-        </>
+        <Modal>
+            <div className="flex flex-col text-center pb-10">
+                <div className="text-2xl">
+                    Reservationen er oprettet!
+                </div>
+                <div className="text-2xl">
+                    Afhentningskode: {localStorage.getItem("reservationId")}
+                </div>
+            </div>
+            <Header />
+            <ShowReservationTable />
+            <div className="">
+                <button
+                    className="w-full p-1 bg-lime-700 text-white rounded hover:bg-lime-800"
+                    onClick={onSubmit}
+                >
+                    Gå tilbage til forsiden
+                </button>
+            </div>
+        </Modal >
     )
 }
 
-function SeatsHeader() {
+
+function ShowReservationTable() {
+    const { selectedSeats, cinema, screening } = useContext(Context);
+
+    return (
+        <>
+            {cinema && screening && (
+                selectedSeats.length > 0 && (
+                    <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th className="px-16 py-2 text-left">Sæde</th>
+                                    <th className="px-16 py-2 text-left">Pris</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {selectedSeats.map((seat) => {
+                                    return (
+                                        <tr key={seat.id}>
+                                            <td className="px-16 text-left">{seat.number + seat.rowLetter}</td>
+                                            <td className="px-16 text-right">{cinema.movieBasePrice},-</td>
+                                        </tr>
+                                    )
+                                })}
+                                {selectedSeats.length >= 10 && (
+                                    <tr>
+                                        <td className="px-16 text-left">Gruppe rabat</td>
+                                        <td className="px-16 text-right">-{Math.ceil(selectedSeats.reduce((acc) => acc + cinema.movieBasePrice, 0) * cinema.groupDiscount)},-</td>
+                                    </tr>
+                                )}
+                                {
+                                    selectedSeats.length <= 5 && (
+                                        <tr>
+                                            <td className="px-16 text-left">Reservation gebyr</td>
+                                            <td className="px-16 text-right">{cinema.reservationFee},-</td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                        <div className="pt-8 pb-8 text-xl font-bold w-[25vw] text-center">Total: {calcTotal(selectedSeats, cinema.groupDiscount, cinema.reservationFee, cinema.movieBasePrice)},- DKK</div>
+                    </>
+                )
+            )}
+        </>
+    );
+}
+
+function SideBar() {
+    const { cinema, screening, selectedSeats, setShowReservationConfirm } = useContext(Context);
+    function handleClick() {
+        setShowReservationConfirm(true);
+    }
+    return (
+        <div className="w-[33vw] flex flex-col items-center">
+            {cinema && screening && (
+                <>
+                    <div className="pt-20 pb-8 text-xl font-bold border-b w-[20vw] text-center">Dit køb</div>
+                    {cinema && screening && (
+                        selectedSeats.length > 0 && (
+                            <>
+                                <ShowReservationTable />
+                                <div onClick={handleClick} className="w-[13vw] text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300">Reservér Billetter</div>
+                            </>
+                        )
+                    )}
+                </>
+            )}
+        </div>
+    )
+}
+
+function Header() {
     const { screening } = useContext(Context);
     return (
         <>
@@ -83,8 +148,9 @@ function SeatsHeader() {
     );
 }
 
-function ShowSeat({ seat }: { seat: ISeatShortForm }) {
-    const { selectedSeats, setSelectedSeats, screening } = useContext(Context);
+function ShowSeat({ seat, ticketList }: { seat: ISeatShortForm, ticketList: number[] }) {
+    const { selectedSeats, setSelectedSeats } = useContext(Context);
+
     const handleClick = () => {
         if (selectedSeats.find(selectedSeat => selectedSeat.id === seat.id)) {
             setSelectedSeats(selectedSeats.filter(selectedSeat => selectedSeat.id !== seat.id));
@@ -95,7 +161,7 @@ function ShowSeat({ seat }: { seat: ISeatShortForm }) {
 
     return (
         <>
-            {screening?.tickets?.some((ticket) => ticket.id === seat.id) ? (
+            {ticketList.some((id) => id === seat.id) ? (
                 <div className={`w-10 h-10 border-2 rounded-lg border-slate-100 bg-rose-950 text-rose-950 flex items-center justify-center`}>
                     {seat.number}
                 </div>
@@ -114,7 +180,8 @@ function ShowSeat({ seat }: { seat: ISeatShortForm }) {
 }
 
 function ShowSeats() {
-    const { seatsByRow } = useContext(Context);
+    const { seatsByRow, screening } = useContext(Context);
+    let ticketList = screening?.reservations?.flatMap((reservation) => reservation.tickets.flatMap((ticket) => ticket.seatId)) ?? [];
     return (
         <>
             {seatsByRow && (
@@ -133,7 +200,7 @@ function ShowSeats() {
                                 {row.map((seat) => {
                                     return (
                                         <div key={seat.number + seat.rowLetter}>
-                                            <ShowSeat seat={seat} />
+                                            <ShowSeat seat={seat} ticketList={ticketList} />
                                         </div>
                                     )
                                 })}
@@ -159,42 +226,68 @@ function ShowSeats() {
 }
 
 function ScreeningReservation() {
-    const { screening, setScreening, cinema, setCinema, setSeatsByRow } = useContext(Context);
+    const {
+        screening, setScreening,
+        cinema, setCinema,
+        setSeatsByRow,
+        selectedSeats,
+        showReservationConfirm, setShowReservationConfirm,
+        showReservationComplete, setShowReservationComplete
+    } = useContext(Context);
     const { getById: getScreeningById } = useScreenings();
     const { getById: getCinemaById } = useCinemas();
-
+    const { add: addReservation, update: updateReservation, complete: completeReservation } = useReservations();
+    const screeningId: number = parseInt(window.location.toString().split("/")[4]);
     useEffect(() => {
         async function fetchData() {
             try {
-                const data = await getScreeningById(1);
-                if (!data) return;
-                setScreening(data);
-                setSeatsByRow(formatSeatsByRow(data));
-                console.log(data);
+                const screeningData = await getScreeningById(screeningId);
+                if (!screeningData) return;
+                setScreening(screeningData);
+                setSeatsByRow(formatSeatsByRow(screeningData));
 
-                const cinemaData = await getCinemaById(data.cinema.id);
+                const cinemaData = await getCinemaById(screeningData.cinema.id);
                 if (!cinemaData) return;
                 setCinema(cinemaData);
-                console.log(cinemaData);
             } catch (error) {
                 toast.error("Kunne ikke finde forestilling");
             }
         };
 
+        async function addInitialReservation() {
+            if (localStorage.getItem("reservationId")) return;
+            const jsonBody = { screeningId: screeningId };
+            const reservation = await addReservation(jsonBody);
+            if (!reservation) {
+                toast.error("Kan ikke kontakte serveren. Prøv igen senere");
+                return;
+            }
+            localStorage.setItem("reservationId", reservation.id.toString());
+        }
+
         fetchData();
+        addInitialReservation();
     }, []);
+
+    useEffect(() => {
+        async function updateReservationWithSelectedSeats() {
+            if (!localStorage.getItem("reservationId")) return;
+            const seatIds = selectedSeats.map((seat) => seat.id);
+            updateReservation(seatIds, parseInt(localStorage.getItem("reservationId")!));
+        }
+
+        updateReservationWithSelectedSeats();
+    }, [selectedSeats]);
 
     return (
         <PageLayout>
             {screening && cinema && (
                 <div className="flex bg-zinc-900 text-slate-100">
-                    <div className="flex flex-col w-[67vw] h-[100vh] gap-5 pt-5 bg-zinc-800  items-center shadow-black shadow-2xl">
-                        <SeatsHeader />
+                    <div className="flex flex-col w-[67vw] h-[100vh] gap-5 pt-5 bg-zinc-800 items-center shadow-black shadow-2xl">
+                        <Header />
                         <ShowSeats />
                     </div>
-                    <div className="w-[33vw] flex flex-col items-center">
-                        <SideBar />
-                    </div>
+                    <SideBar />
                 </div>)
             }
             {
@@ -202,7 +295,26 @@ function ScreeningReservation() {
                     <div>Loading...</div>
                 )
             }
-
+            {showReservationConfirm && (
+                <ConfirmModal
+                    onSubmit={() => {
+                        completeReservation(parseInt(localStorage.getItem("reservationId")!));
+                        setShowReservationConfirm(false);
+                        setShowReservationComplete(true);
+                    }}
+                    onClose={() => {
+                        setShowReservationConfirm(false);
+                    }}
+                />
+            )}
+            {showReservationComplete && (
+                <CompleteReservationModal
+                    onSubmit={() => {
+                        localStorage.removeItem("reservationId");
+                        window.location.href = "/";
+                    }}
+                />
+            )}
         </PageLayout >
     );
 }

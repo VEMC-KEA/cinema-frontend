@@ -2,8 +2,6 @@ import { IScreening, ISeatShortForm } from "../../../types/types";
 
 function formatSeatsByRow(screening: IScreening) {
     const seatsByRow: { [rowName: string]: ISeatShortForm[]; } = {};
-    console.log(screening);
-
     screening.hall.seats.forEach((seat) => {
         if (!seatsByRow[seat.rowLetter]) {
             seatsByRow[seat.rowLetter] = [];

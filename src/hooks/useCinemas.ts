@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type {
     ICinema,
-    IHallShortForm,
     IMovieShortForm
 } from "../types/types.ts";
 import toast from "react-hot-toast";

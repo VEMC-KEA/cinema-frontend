@@ -6,7 +6,11 @@ interface IScreening {
     date: string;
     time: string;
     is3D: boolean;
-    tickets?: ITicket[];
+    reservations?: IReservationTickets[];
+}
+
+interface IReservationTickets {
+    tickets: ITicket[];
 }
 
 interface IScreeningFormData {
@@ -60,18 +64,20 @@ interface IMovieShortForm {
     id: number;
     title: string;
 }
+
 interface IReservation {
     id: number;
     tickets: ITicket[];
-    screening: IReservationScreening;
+    screening: IScreening;
     completed: boolean;
 }
 
 interface ITicket {
     id: number;
-    seat: ISeatShortForm;
+    seatId: number;
+    rowLetter: string;
+    number: number;
     price: number;
-    completed: boolean;
 }
 
 interface IReservationScreening {

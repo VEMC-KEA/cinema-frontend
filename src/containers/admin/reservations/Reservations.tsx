@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PageLayout from "../../../components/PageLayout";
 //import useReservations from "../../hooks/useReservations";
-import type { IReservation, IReservationScreening } from "../../../types/types";
-import reservationMockData from "./data/reservationMockData";
-import screeningMockData from "./data/screeningMockData";
+import type { IReservation, IScreening } from "../../../types/types";
 import Modal from "../../../components/Modal";
+import useReservations from "../../../hooks/useReservations";
+import useScreenings from "../../../hooks/useScreenings";
 
 function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<SetStateAction<number | null>> }) {
     return (
@@ -51,7 +51,7 @@ function DeleteModal({ onSubmit, onClose }: IScreeningDeleteModalProps) {
     );
 }
 
-function ScreeningHeader({ screening }: { screening: IReservationScreening }) {
+function ScreeningHeader({ screening }: { screening: IScreening }) {
     return (
         <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
             <div className="text-4xl font-bold">{screening.movie.title}</div>
@@ -88,7 +88,7 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
                     <tbody>
                         {reservation.tickets.map((ticket) => (
                             <tr key={ticket.id}>
-                                <td>{ticket.seat.number}{ticket.seat.rowLetter}</td>
+                                <td>{ticket.number}{ticket.rowLetter}</td>
                                 <td>{ticket.price},-</td>
                             </tr>
                         ))}
@@ -116,10 +116,10 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
 
 
 function Reservations() {
-    //const { reservations, getReservation, deleteReservation } = useReservations();
-    //const { screenings, getScreening } = useScreenings();
-    const reservations: IReservation[] = reservationMockData();
-    const screenings: IReservationScreening[] = screeningMockData();
+    const { reservations, destroy: deleteReservation } = useReservations();
+    const { screenings } = useScreenings();
+    //const reservations: IReservation[] = reservationMockData();
+    //const screenings: IReservationScreening[] = screeningMockData();
 
     const [reservationDeleteModal, setReservationDeleteModal] = useState(false);
     const [selectedReservation, setSelectedReservation] = useState<IReservation | null>(null);
@@ -169,8 +169,7 @@ function Reservations() {
             {reservationDeleteModal && (
                 <DeleteModal
                     onSubmit={() => {
-                        //deleteReservation(selectedReservation.id);
-                        console.log(selectedReservation);
+                        if (selectedReservation) deleteReservation(selectedReservation.id);
                         setReservationDeleteModal(false);
                         setSelectedReservation(null);
                     }}
