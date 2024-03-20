@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PageLayout from "../../../components/PageLayout";
-//import useReservations from "../../hooks/useReservations";
 import type { IReservation, IScreening } from "../../../types/types";
 import Modal from "../../../components/Modal";
 import useReservations from "../../../hooks/useReservations";

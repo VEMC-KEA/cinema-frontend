@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import type {
     ICinema,
+    IHallShortForm,
     IMovieShortForm
 } from "../types/types.ts";
 import toast from "react-hot-toast";
+import { handleHttpErrors } from "../utils/fetchUtils.ts";
 
 function useCinemas() {
     const [cinemas, setCinemas] = useState<ICinema[]>([]);
@@ -29,6 +31,20 @@ function useCinemas() {
         return await response.json();
     }
 
+    async function getHallsByCinemaId(
+        cinemaId: number
+    ): Promise<IHallShortForm[] | undefined> {
+        try {
+            return await fetch(`${url}/${cinemaId}/halls`).then(
+                handleHttpErrors
+            );
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
+        }
+    }
+
     async function getMoviesByCinemaId(
         cinemaId: number
     ): Promise<IMovieShortForm[] | undefined> {
@@ -41,7 +57,7 @@ function useCinemas() {
     }
 
 
-    return { cinemas, getById, getMoviesByCinemaId };
+    return { cinemas, getById, getMoviesByCinemaId, getHallsByCinemaId };
 }
 
 export default useCinemas;
