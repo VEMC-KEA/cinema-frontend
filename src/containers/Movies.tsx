@@ -10,6 +10,7 @@ import {
     MdOutlineArrowBackIosNew,
     MdOutlineArrowForwardIos
 } from "react-icons/md";
+import LoadingSpinner from "./admin/components/LoadingSpinner.tsx";
 
 function Screening({ screening }: { screening: IScreening }) {
     const navigate = useNavigate();
@@ -76,7 +77,11 @@ function Screenings({ movie }: { movie: IMovie }) {
 
     return (
         <div className="flex relative w-full">
-            {isLoading && <p>Loading...</p>}
+            {isLoading && (
+                <div className="w-full flex items-center justify-center">
+                    <LoadingSpinner size={40} />
+                </div>
+            )}
             {!isLoading && startIndex > 0 && (
                 <div
                     className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-stone-100 to-transparent flex items-center cursor-pointer"
@@ -189,7 +194,11 @@ function Movies() {
                         uge frem ad gangen
                     </div>
                 </div>
-                {isLoading && <p>Loading...</p>}
+                {isLoading && (
+                    <div className="w-full flex items-center justify-center">
+                        <LoadingSpinner />
+                    </div>
+                )}
                 {!isLoading &&
                     movies.map((movie) => (
                         <Movie

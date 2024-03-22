@@ -2,6 +2,7 @@ import PageLayout from "../components/PageLayout.tsx";
 import useCinemas from "../hooks/useCinemas.ts";
 import type { ICinema } from "../types/types.ts";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./admin/components/LoadingSpinner.tsx";
 
 function Cinema({ cinema }: { cinema: ICinema }) {
     const navigate = useNavigate();
@@ -27,7 +28,11 @@ function Cinemas() {
 
     return (
         <PageLayout>
-            {isLoading && <p>Loading...</p>}
+            {isLoading && (
+                <div className="w-full h-screen flex justify-center items-center">
+                    <LoadingSpinner size={80} />
+                </div>
+            )}
             {!isLoading && (
                 <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
                     {cinemas.map((cinema) => (

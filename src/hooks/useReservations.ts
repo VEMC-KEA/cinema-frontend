@@ -5,6 +5,7 @@ import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
 function useReservations() {
     const [reservations, setReservations] = useState<IReservation[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const url = import.meta.env.VITE_API_URL + "/reservations";
 
     async function getAll() {
@@ -20,14 +21,17 @@ function useReservations() {
     }
 
     useEffect(() => {
-        void getAll();
+        setIsLoading(true);
+        void getAll().then(() => setIsLoading(false));
     }, []);
 
-    async function add(screeningId: { screeningId: number }): Promise<IReservation | undefined> {
+    async function add(screeningId: {
+        screeningId: number;
+    }): Promise<IReservation | undefined> {
         const options = makeOptions("POST", screeningId, false);
-        try{
+        try {
             return await fetch(`${url}`, options).then(handleHttpErrors);
-        } catch(e:unknown){
+        } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(e.message);
             }
@@ -35,13 +39,13 @@ function useReservations() {
     }
 
     async function update(seatIds: number[], reservationId: number) {
-        const options = makeOptions("PUT", {seatIds}, false);
+        const options = makeOptions("PUT", { seatIds }, false);
         try {
             return await fetch(`${url}/${reservationId}/tickets`, options).then(
                 handleHttpErrors
             );
-        } catch (e:unknown) {
-            if(e instanceof Error){
+        } catch (e: unknown) {
+            if (e instanceof Error) {
                 toast.error(e.message);
             }
         }
@@ -49,10 +53,13 @@ function useReservations() {
 
     async function complete(reservationId: number) {
         const options = makeOptions("PATCH", null, false);
-        try{
-            return await fetch(`${url}/${reservationId}/complete`, options).then(handleHttpErrors);
-        } catch(e:unknown){
-            if(e instanceof Error){
+        try {
+            return await fetch(
+                `${url}/${reservationId}/complete`,
+                options
+            ).then(handleHttpErrors);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
                 toast.error(e.message);
             }
         }
@@ -60,19 +67,19 @@ function useReservations() {
 
     async function destroy(id: number) {
         const options = makeOptions("DELETE", null, true);
-        try{
+        try {
             await fetch(`${url}/${id}`, options).then(handleHttpErrors);
-        const newReservations = reservations.filter((r) => r.id !== id);
-        setReservations(newReservations);
-        toast.success("Reservationen er slettet");
-        } catch(e:unknown){
-            if(e instanceof Error){
+            const newReservations = reservations.filter((r) => r.id !== id);
+            setReservations(newReservations);
+            toast.success("Reservationen er slettet");
+        } catch (e: unknown) {
+            if (e instanceof Error) {
                 toast.error(e.message);
             }
         }
     }
 
-    return { reservations, destroy, add, update, complete };
+    return { reservations, destroy, add, update, complete, isLoading };
 }
 
 export default useReservations;
