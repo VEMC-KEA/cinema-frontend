@@ -361,7 +361,7 @@ function ScreeningReservation() {
         }
 
         void updateReservationWithSelectedSeats();
-    }, []);
+    }, [selectedSeats]);
 
     return (
         <PageLayout>
