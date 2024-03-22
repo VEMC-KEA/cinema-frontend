@@ -2,8 +2,9 @@ import { IMovie } from "../types/types.ts";
 import { useEffect, useState } from "react";
 import { handleHttpErrors } from "../utils/fetch.ts";
 import HttpException from "../components/errors/HttpException.ts";
+import toast from "react-hot-toast";
 
-function useMovies(cinemaId: number | undefined) {
+function useMovies(cinemaId?: number) {
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const url = !!cinemaId
@@ -19,7 +20,7 @@ function useMovies(cinemaId: number | undefined) {
             setMovies(response);
         } catch (e: unknown) {
             if (e instanceof HttpException) {
-                console.error(e.message);
+                toast.error(e.message);
             }
         }
     }
@@ -29,7 +30,17 @@ function useMovies(cinemaId: number | undefined) {
         getMovies().then(() => setIsLoading(false));
     }, []);
 
-    return { movies, isLoading };
+    async function getById(id: number): Promise<IMovie | undefined> {
+        try {
+            return await fetch(url + "/" + id).then(handleHttpErrors);
+        } catch (e: unknown) {
+            if (e instanceof HttpException) {
+                toast.error(e.message);
+            }
+        }
+    }
+
+    return { movies, isLoading, getById };
 }
 
 export default useMovies;

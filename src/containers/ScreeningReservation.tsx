@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Context } from "../Context.tsx";
 import PageLayout from "../components/PageLayout.tsx";
-import { ISeatShortForm } from "../types/types.ts";
+import { IMovie, ISeatShortForm } from "../types/types.ts";
 import useScreenings from "../hooks/useScreenings.ts";
 import useCinemas from "../hooks/useCinemas.ts";
 import toast from "react-hot-toast";
@@ -21,6 +21,7 @@ import {
     formatSeatsByRow
 } from "../utils/formatting.ts";
 import LoadingSpinner from "../components/LoadingSpinner.tsx";
+import useMovies from "../hooks/useMovies.ts";
 
 function ConfirmModal({
     onSubmit,
@@ -62,7 +63,12 @@ function CompleteReservationModal({
         <Modal>
             <div className="flex flex-col text-center pb-10">
                 <div className="text-2xl">Reservationen er oprettet!</div>
-                <div className="text-2xl">Afhentningskode: {}</div>
+                <div className="text-2xl">
+                    Afhentningskode:{" "}
+                    <span className="font-bold text-blue-600">
+                        {reservationId}
+                    </span>
+                </div>
             </div>
             <Header />
             <ShowReservationTable />
@@ -163,18 +169,18 @@ function SideBar({
     }
 
     return (
-        <div className="w-[33vw] flex flex-col items-center">
+        <div className="w-[33vw] max-lg:w-full flex flex-col items-center">
             {cinema && screening && (
                 <>
-                    <div className="pt-20 pb-8 text-xl font-bold border-b w-[20vw] text-center">
-                        Dit køb
+                    <div className="pt-20 pb-8 text-xl font-bold border-b w-[20vw] max-lg:w-full text-center">
+                        Din reservation
                     </div>
                     {cinema && screening && selectedSeats.length > 0 && (
                         <>
                             <ShowReservationTable />
                             <div
                                 onClick={handleClick}
-                                className="w-[13vw] text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300"
+                                className="font-semibold w-80 text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300"
                             >
                                 Reservér Billetter
                             </div>
@@ -188,17 +194,36 @@ function SideBar({
 
 function Header() {
     const { screening } = useContext(Context);
+    const { getById } = useMovies();
+    const [movie, setMovie] = useState<IMovie | undefined>();
+    useEffect(() => {
+        if (!screening) return;
+        getById(screening.movie.id).then((movie) => setMovie(movie));
+    }, []);
+
     return (
         <>
             {screening && (
-                <div className="flex flex-col text-2xl items-center">
-                    <div className="text-4xl">{screening.cinema.name}</div>
-                    <div>{screening.movie.title}</div>
-                    <div>
-                        {formatDate(screening.date)}{" "}
-                        {formatTime(screening.time)}
+                <div className="flex gap-8 w-full px-4">
+                    <img
+                        src={movie?.imageUrl}
+                        alt={screening.movie.title}
+                        className="w-20 rounded-md"
+                    />
+
+                    <div className="flex flex-col text-2xl w-full">
+                        <div className="text-4xl font-bold text-red-900">
+                            {screening.movie.title}
+                        </div>
+                        <div className="text-3xl font-semibold">
+                            {screening.cinema.name} - Sal{" "}
+                            {screening.hall.number}
+                        </div>
+                        <div className="text-3xl">
+                            {formatDate(screening.date)} kl.{" "}
+                            {formatTime(screening.time)}
+                        </div>
                     </div>
-                    <div>Sal {screening.hall.number}</div>
                 </div>
             )}
         </>
@@ -258,11 +283,11 @@ function ShowSeats() {
     return (
         <>
             {seatsByRow && (
-                <div>
-                    <div className="text-center text-4xl mb-5">Vælg Sæder:</div>
+                <div className="border p-4 rounded bg-zinc-900">
+                    <div className="text-center text-3xl mb-5">Vælg Sæder:</div>
                     <div
-                        className="border-[2vh] border-zinc-200 bg-zinc-200 
-                    rounded-t-full
+                        className="p-2 border-zinc-200 bg-zinc-200
+                    rounded-t-xl
                     text-center text-zinc-900 text-xl font-semibold"
                     >
                         Lærred
@@ -293,7 +318,7 @@ function ShowSeats() {
                             </div>
                         );
                     })}
-                    <div className="flex items-center gap-4 pt-20">
+                    <div className="flex justify-center items-center gap-4 pt-20">
                         <div className="w-8 h-8 bg-lime-700 border-2 rounded-lg border-slate-100"></div>
                         <div>Ledig</div>
                         <div className="w-8 h-8 ml-24 bg-sky-950  border-2 rounded-lg border-slate-100"></div>
@@ -382,8 +407,8 @@ function ScreeningReservation() {
     return (
         <PageLayout>
             {screening && cinema && (
-                <div className="flex bg-zinc-900 text-slate-100">
-                    <div className="flex flex-col w-[67vw] h-[100vh] gap-5 pt-5 bg-zinc-800 items-center shadow-black shadow-2xl">
+                <div className="flex bg-zinc-900 text-slate-100 max-lg:flex-col">
+                    <div className="flex flex-col w-[67vw] max-lg:w-full h-[100vh] gap-5 pt-5 bg-zinc-800 items-center shadow-black shadow-2xl">
                         <Header />
                         <ShowSeats />
                     </div>
