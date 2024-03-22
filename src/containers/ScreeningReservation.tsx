@@ -396,7 +396,6 @@ function ScreeningReservation() {
                         void completeReservation(reservationId);
                         setShowReservationConfirm(false);
                         setShowReservationComplete(true);
-                        setSelectedSeats([]);
                     }}
                     onClose={() => {
                         setShowReservationConfirm(false);
@@ -408,6 +407,7 @@ function ScreeningReservation() {
                     onSubmit={() => {
                         setShowReservationConfirm(false);
                         setShowReservationComplete(false);
+                        setSelectedSeats([]);
                         navigate("/");
                     }}
                     reservationId={reservationId}
