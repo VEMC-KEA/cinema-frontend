@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { IScreening, IScreeningFormData } from "../types/types";
 import toast from "react-hot-toast";
 import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
+import HttpException from "../components/errors/HttpException.ts";
 
 function useScreenings(movieId?: number, cinemaId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
@@ -24,7 +25,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
             );
             setFutureScreenings(futureScreeningsByDate);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -39,7 +40,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
         try {
             return await fetch(`${url}/${id}`).then(handleHttpErrors);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -54,7 +55,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
             setScreenings([...screenings, newScreening]);
             toast.success("Forestillingen er oprettet");
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -69,7 +70,7 @@ function useScreenings(movieId?: number, cinemaId?: number) {
             setScreenings(updatedScreenings);
             toast.success("Forestillingen er slettet");
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }

@@ -1,6 +1,7 @@
 import { IMovie } from "../types/types.ts";
 import { useEffect, useState } from "react";
 import { handleHttpErrors } from "../utils/fetch.ts";
+import HttpException from "../components/errors/HttpException.ts";
 
 function useMovies(cinemaId: number | undefined) {
     const [movies, setMovies] = useState<IMovie[]>([]);
@@ -17,7 +18,7 @@ function useMovies(cinemaId: number | undefined) {
             }
             setMovies(response);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 console.error(e.message);
             }
         }

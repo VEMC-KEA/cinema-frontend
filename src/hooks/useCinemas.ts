@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { ICinema, IHall, IMovieShortForm } from "../types/types.ts";
 import { handleHttpErrors } from "../utils/fetch.ts";
 import toast from "react-hot-toast";
+import HttpException from "../components/errors/HttpException.ts";
 
 function useCinemas() {
     const [cinemas, setCinemas] = useState<ICinema[]>([]);
@@ -18,7 +19,7 @@ function useCinemas() {
             }
             setCinemas(data);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -33,7 +34,7 @@ function useCinemas() {
         try {
             return await fetch(`${url}/${id}`).then(handleHttpErrors);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -47,7 +48,7 @@ function useCinemas() {
                 handleHttpErrors
             );
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -61,7 +62,7 @@ function useCinemas() {
                 handleHttpErrors
             );
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }

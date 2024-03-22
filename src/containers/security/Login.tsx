@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import PageLayout from "../../components/PageLayout.tsx";
 import LoadingSpinner from "../../components/LoadingSpinner.tsx";
+import HttpException from "../../components/errors/HttpException.ts";
 
 const Login = () => {
     const [user, setUser] = useState({ username: "", password: "" });
@@ -28,7 +29,13 @@ const Login = () => {
             })
             .catch((err: unknown) => {
                 setIsLoading(false);
-                if (err instanceof Error) toast.error(err.message);
+                if (err instanceof HttpException) {
+                    if (err.status === 401) {
+                        toast.error("Forkert brugernavn eller password");
+                    } else {
+                        toast.error(err.message);
+                    }
+                }
             });
     }
 

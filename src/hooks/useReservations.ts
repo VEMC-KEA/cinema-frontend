@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IReservation } from "../types/types";
 import toast from "react-hot-toast";
 import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
+import HttpException from "../components/errors/HttpException.ts";
 
 function useReservations() {
     const [reservations, setReservations] = useState<IReservation[]>([]);
@@ -14,7 +15,7 @@ function useReservations() {
             const data = await response;
             setReservations(data);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -32,7 +33,7 @@ function useReservations() {
         try {
             return await fetch(`${url}`, options).then(handleHttpErrors);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -45,7 +46,7 @@ function useReservations() {
                 handleHttpErrors
             );
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -59,7 +60,7 @@ function useReservations() {
                 options
             ).then(handleHttpErrors);
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }
@@ -73,7 +74,7 @@ function useReservations() {
             setReservations(newReservations);
             toast.success("Reservationen er slettet");
         } catch (e: unknown) {
-            if (e instanceof Error) {
+            if (e instanceof HttpException) {
                 toast.error(e.message);
             }
         }

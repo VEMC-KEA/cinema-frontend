@@ -1,3 +1,5 @@
+import HttpException from "../components/errors/HttpException.ts";
+
 /**
  * Utility Method to create options for a fetch call
  * @param method GET, POST, PUT, DELETE
@@ -52,7 +54,7 @@ async function handleHttpErrors(res: Response) {
         if (res.status >= 500) {
             msg = "Der skete en fejl på serveren. Prøv venligst igen senere.";
         }
-        throw new Error(msg);
+        throw new HttpException(msg, res.status);
     }
     if (res.status === 204) {
         return res;
