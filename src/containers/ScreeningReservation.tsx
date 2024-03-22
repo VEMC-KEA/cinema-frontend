@@ -20,6 +20,7 @@ import {
     formatTime,
     formatSeatsByRow
 } from "../utils/formatting.ts";
+import LoadingSpinner from "../components/LoadingSpinner.tsx";
 
 function ConfirmModal({
     onSubmit,
@@ -391,7 +392,11 @@ function ScreeningReservation() {
                     />
                 </div>
             )}
-            {(!screening || !cinema) && <div>Loading...</div>}
+            {(!screening || !cinema) && (
+                <div className="h-screen w-full flex justify-center items-center">
+                    <LoadingSpinner size={80} />
+                </div>
+            )}
             {showReservationConfirm && (
                 <ConfirmModal
                     onSubmit={() => {
