@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { IReservation } from "../types/types";
-import { makeOptions } from "../utils/fetchUtils";
 import toast from "react-hot-toast";
+import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
 function useReservations() {
     const [reservations, setReservations] = useState<IReservation[]>([]);
     const url = import.meta.env.VITE_API_URL + "/reservations";
 
     async function getAll() {
-        const response = await fetch(url);
-        const data = await response.json();
-        setReservations(data);
+        try {
+            const response = await fetch(url).then(handleHttpErrors);
+            const data = await response;
+            setReservations(data);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
+        }
     }
 
     useEffect(() => {
@@ -18,53 +24,52 @@ function useReservations() {
     }, []);
 
     async function add(screeningId: { screeningId: number }): Promise<IReservation | undefined> {
-        const response = await fetch(`${url}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(screeningId)
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke slette reservationen");
-            return;
+        const options = makeOptions("POST", screeningId, false);
+        try{
+            return await fetch(`${url}`, options).then(handleHttpErrors);
+        } catch(e:unknown){
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        return await response.json();
     }
 
     async function update(seatIds: number[], reservationId: number) {
-        const response = await fetch(`${url}/${reservationId}/tickets`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ seatIds })
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke opdatere reservationen");
-            return;
+        const options = makeOptions("PUT", {seatIds}, false);
+        try {
+            return await fetch(`${url}/${reservationId}/tickets`, options).then(
+                handleHttpErrors
+            );
+        } catch (e:unknown) {
+            if(e instanceof Error){
+                toast.error(e.message);
+            }
         }
     }
 
     async function complete(reservationId: number) {
-        const response = await fetch(`${url}/${reservationId}/complete`, {
-            method: "PATCH"
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke fuldføre reservationen");
-            return;
+        const options = makeOptions("PATCH", null, false);
+        try{
+            return await fetch(`${url}/${reservationId}/complete`, options).then(handleHttpErrors);
+        } catch(e:unknown){
+            if(e instanceof Error){
+                toast.error(e.message);
+            }
         }
     }
 
     async function destroy(id: number) {
-        const response = await fetch(`${url}/${id}`, makeOptions("DELETE", null, true));
-        if (!response.ok) {
-            toast.error("Kunne ikke slette reservationen");
-            return;
-        }
+        const options = makeOptions("DELETE", null, true);
+        try{
+            await fetch(`${url}/${id}`, options).then(handleHttpErrors);
         const newReservations = reservations.filter((r) => r.id !== id);
         setReservations(newReservations);
         toast.success("Reservationen er slettet");
+        } catch(e:unknown){
+            if(e instanceof Error){
+                toast.error(e.message);
+            }
+        }
     }
 
     return { reservations, destroy, add, update, complete };

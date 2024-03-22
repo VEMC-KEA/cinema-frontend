@@ -1,39 +1,47 @@
 import { useEffect, useState } from "react";
-import type {
-    ICinema,
-    IHallShortForm,
-    IMovieShortForm
-} from "../types/types.ts";
-import toast from "react-hot-toast";
+import type { ICinema, IHall, IMovieShortForm } from "../types/types.ts";
 import { handleHttpErrors } from "../utils/fetchUtils.ts";
+import toast from "react-hot-toast";
 
 function useCinemas() {
     const [cinemas, setCinemas] = useState<ICinema[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const url = import.meta.env.VITE_API_URL + "/cinemas";
 
     async function getAll() {
-        const response = await fetch(url);
-        const data = await response.json();
-        setCinemas(data);
+        try {
+            const response = await fetch(url).then(handleHttpErrors);
+            const data = await response;
+            if (data.statusCode === 204) {
+                return;
+            }
+            setCinemas(data);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
+        }
     }
 
     useEffect(() => {
-        void getAll();
+        setIsLoading(true);
+        getAll().then(() => setIsLoading(false));
     }, []);
 
     async function getById(id: number): Promise<ICinema | undefined> {
-        const response = await fetch(`${url}/${id}`);
-        if (!response.ok) {
-            toast.error("Kunne ikke finde biograf");
-            return;
+        try {
+            return await fetch(`${url}/${id}`).then(handleHttpErrors);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        return await response.json();
     }
 
     async function getHallsByCinemaId(
         cinemaId: number
-    ): Promise<IHallShortForm[] | undefined> {
+    ): Promise<IHall[] | undefined> {
         try {
             return await fetch(`${url}/${cinemaId}/halls`).then(
                 handleHttpErrors
@@ -48,16 +56,24 @@ function useCinemas() {
     async function getMoviesByCinemaId(
         cinemaId: number
     ): Promise<IMovieShortForm[] | undefined> {
-        const response = await fetch(`${url}/${cinemaId}/movies`);
-        if (!response.ok) {
-            toast.error("Kunne ikke finde film");
-            return;
+        try {
+            return await fetch(`${url}/${cinemaId}/movies`).then(
+                handleHttpErrors
+            );
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        return await response.json();
     }
 
-
-    return { cinemas, getById, getMoviesByCinemaId, getHallsByCinemaId };
+    return {
+        cinemas,
+        isLoading,
+        getById,
+        getHallsByCinemaId,
+        getMoviesByCinemaId
+    };
 }
 
 export default useCinemas;

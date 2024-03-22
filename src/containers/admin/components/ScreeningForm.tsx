@@ -181,7 +181,7 @@ function ScreeningForm({ onSubmit, title }: IScreeningFormProps) {
             <label className="flex justify-end">
                 <input
                     type="checkbox"
-                    {...register("is3D")}
+                    {...register("is3d")}
                     className="p-1 mr-2 w-4"
                 />
                 <span className="font-semibold">3D</span>

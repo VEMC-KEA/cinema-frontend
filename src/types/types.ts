@@ -5,7 +5,7 @@ interface IScreening {
     cinema: ICinemaScreening;
     date: string;
     time: string;
-    is3D: boolean;
+    is3d: boolean;
     reservations?: IReservationTickets[];
 }
 
@@ -19,7 +19,7 @@ interface IScreeningFormData {
     hall?: IHallShortForm;
     date?: string;
     time?: string;
-    is3D?: boolean;
+    is3d?: boolean;
 }
 
 interface ICinema {
@@ -50,10 +50,26 @@ interface IHallShortForm {
     number: number;
 }
 
+interface IHall {
+    id: number;
+    number: number;
+    seats: ISeatShortForm[];
+}
+
 interface ISeatShortForm {
     id: number;
     number: number;
     rowLetter: string;
+}
+
+interface IMovie {
+    id: number;
+    runTime: number;
+    isClassic: boolean;
+    genre: string;
+    pg13: boolean;
+    title: string;
+    imageUrl: string;
 }
 
 interface IHallShortFormWithSeats extends IHallShortForm {
@@ -97,5 +113,9 @@ export type {
     IMovieShortForm,
     IHallShortForm,
     ISeatShortForm,
-    IReservation, ITicket, IReservationScreening
+    IReservation,
+    ITicket,
+    IReservationScreening,
+    IMovie,
+    IHall
 };

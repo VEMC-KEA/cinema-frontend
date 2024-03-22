@@ -1,61 +1,81 @@
 import { useEffect, useState } from "react";
-import type { IScreening } from "../types/types";
+import type { IScreening, IScreeningFormData } from "../types/types";
 import toast from "react-hot-toast";
+import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
 
-function useScreenings() {
+function useScreenings(movieId?: number, cinemaId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);
-    const url = import.meta.env.VITE_API_URL + "/screenings";
+    const [futureScreenings, setFutureScreenings] = useState<IScreening[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    let url = !!movieId
+        ? import.meta.env.VITE_API_URL + "/screenings?movieId=" + movieId
+        : import.meta.env.VITE_API_URL + "/screenings";
+    url += !!cinemaId ? "&cinemaId=" + cinemaId : "";
 
     async function getAll() {
-        const response = await fetch(url);
-        const data = await response.json();
-        setScreenings(data);
+        try {
+            const response = await fetch(url).then(handleHttpErrors);
+            if (response.status === 204) {
+                return;
+            }
+            setScreenings(response);
+            const futureScreeningsByDate = response.filter(
+                (s: IScreening) => new Date(s.date + " " + s.time) >= new Date()
+            );
+            setFutureScreenings(futureScreeningsByDate);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
+        }
     }
 
     useEffect(() => {
-        void getAll();
+        setIsLoading(true);
+        getAll().then(() => setIsLoading(false));
     }, []);
 
     async function getById(id: number): Promise<IScreening | undefined> {
-        const response = await fetch(`${url}/${id}`);
-        if (!response.ok) {
-            toast.error("Kunne ikke finde forestillingen");
-            return;
+        try {
+            return await fetch(`${url}/${id}`).then(handleHttpErrors);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        return await response.json();
     }
 
-    async function add(screening: IScreening) {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(screening)
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke oprette forestillingen");
-            return;
+    async function add(screening: IScreeningFormData) {
+        const options = makeOptions("POST", screening, true);
+        try {
+            const newScreening = await fetch(url, options).then(
+                handleHttpErrors
+            );
+            setScreenings([...screenings, newScreening]);
+            toast.success("Forestillingen er oprettet");
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        const newScreening = await response.json();
-        setScreenings([...screenings, newScreening]);
-        toast.success("Forestillingen er oprettet");
     }
 
-    async function destroy(id: number) {
-        const response = await fetch(`${url}/${id}`, {
-            method: "DELETE"
-        });
-        if (!response.ok) {
-            toast.error("Kunne ikke slette forestillingen");
-            return;
+    async function destroy(id: number | undefined) {
+        if (!id) return;
+        const options = makeOptions("DELETE", null, true);
+        try {
+            await fetch(`${url}/${id}`, options).then(handleHttpErrors);
+            const updatedScreenings = screenings.filter((s) => s.id !== id);
+            setScreenings(updatedScreenings);
+            toast.success("Forestillingen er slettet");
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(e.message);
+            }
         }
-        const updatedScreenings = screenings.filter((s) => s.id !== id);
-        setScreenings(updatedScreenings);
-        toast.success("Forestillingen er slettet");
     }
 
-    return { screenings, getById, add, destroy };
+    return { screenings, futureScreenings, isLoading, getById, add, destroy };
 }
 
 export default useScreenings;

@@ -5,7 +5,11 @@ import Modal from "../../../components/Modal";
 import useReservations from "../../../hooks/useReservations";
 import useScreenings from "../../../hooks/useScreenings";
 
-function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<SetStateAction<number | null>> }) {
+function Search({
+    setSearchedReservation
+}: {
+    setSearchedReservation: Dispatch<SetStateAction<number | null>>;
+}) {
     return (
         <div className="p-5">
             <input
@@ -13,7 +17,8 @@ function Search({ setSearchedReservation }: { setSearchedReservation: Dispatch<S
                 placeholder="Søg efter reservation"
                 className="p-2 border border-gray-400 rounded text-xl"
                 onChange={(e) => {
-                    if (e.target.value.length === 0) setSearchedReservation(null);
+                    if (e.target.value.length === 0)
+                        setSearchedReservation(null);
                     setSearchedReservation(parseInt(e.target.value));
                 }}
             />
@@ -55,7 +60,9 @@ function ScreeningHeader({ screening }: { screening: IScreening }) {
         <div className="flex-row gap-2 text-lg px-5 pt-16 w-full">
             <div className="text-4xl font-bold">{screening.movie.title}</div>
             <div className="flex-row text-xl">
-                <div>{screening.date} {screening.time}</div>
+                <div>
+                    {screening.date} {screening.time}
+                </div>
                 <div>{screening.cinema.name}</div>
             </div>
         </div>
@@ -68,7 +75,11 @@ interface IReservationProps {
     setReservationDeleteModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function Reservation({ reservation, setSelectedReservation, setReservationDeleteModal }: IReservationProps) {
+function Reservation({
+    reservation,
+    setSelectedReservation,
+    setReservationDeleteModal
+}: IReservationProps) {
     return (
         <div className="px-5 w-full text-xl">
             <div className="flex gap-2 my-2">
@@ -93,7 +104,13 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
                         ))}
                         <tr className="font-semibold border-t">
                             <td>Samlet pris:</td>
-                            <td>{reservation.tickets.reduce((acc, ticket) => acc + ticket.price, 0)},-</td>
+                            <td>
+                                {reservation.tickets.reduce(
+                                    (acc, ticket) => acc + ticket.price,
+                                    0
+                                )}
+                                ,-
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -117,13 +134,15 @@ function Reservation({ reservation, setSelectedReservation, setReservationDelete
 function Reservations() {
     const { reservations, destroy: deleteReservation } = useReservations();
     const { screenings } = useScreenings();
-    //const reservations: IReservation[] = reservationMockData();
-    //const screenings: IReservationScreening[] = screeningMockData();
 
     const [reservationDeleteModal, setReservationDeleteModal] = useState(false);
-    const [selectedReservation, setSelectedReservation] = useState<IReservation | null>(null);
-    const [searchedReservationId, setSearchedReservationId] = useState<number | null>(null);
-    const [searchedReservation, setSearchedReservation] = useState<IReservation | null>(null);
+    const [selectedReservation, setSelectedReservation] =
+        useState<IReservation | null>(null);
+    const [searchedReservationId, setSearchedReservationId] = useState<
+        number | null
+    >(null);
+    const [searchedReservation, setSearchedReservation] =
+        useState<IReservation | null>(null);
 
     useEffect(() => {
         if (!searchedReservationId) {
