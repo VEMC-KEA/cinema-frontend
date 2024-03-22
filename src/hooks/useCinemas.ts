@@ -42,9 +42,8 @@ function useCinemas() {
     async function getHallsByCinemaId(
         cinemaId: number
     ): Promise<IHall[] | undefined> {
-        const options = makeOptions("GET", null, true);
         try {
-            return await fetch(`${url}/${cinemaId}/halls`, options).then(
+            return await fetch(`${url}/${cinemaId}/halls`).then(
                 handleHttpErrors
             );
         } catch (e: unknown) {
