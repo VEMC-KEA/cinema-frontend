@@ -42,9 +42,10 @@ function useReservations() {
     async function update(seatIds: number[], reservationId: number) {
         const options = makeOptions("PUT", { seatIds }, false);
         try {
-            return await fetch(`${url}/${reservationId}/tickets`, options).then(
-                handleHttpErrors
-            );
+            setIsLoading(true);
+            return await fetch(`${url}/${reservationId}/tickets`, options)
+                .then(handleHttpErrors)
+                .then(() => setIsLoading(false));
         } catch (e: unknown) {
             if (e instanceof HttpException) {
                 toast.error(e.message);
@@ -55,10 +56,10 @@ function useReservations() {
     async function complete(reservationId: number) {
         const options = makeOptions("PATCH", null, false);
         try {
-            return await fetch(
-                `${url}/${reservationId}/complete`,
-                options
-            ).then(handleHttpErrors);
+            setIsLoading(true);
+            return await fetch(`${url}/${reservationId}/complete`, options)
+                .then(handleHttpErrors)
+                .then(() => setIsLoading(false));
         } catch (e: unknown) {
             if (e instanceof HttpException) {
                 toast.error(e.message);
@@ -69,9 +70,11 @@ function useReservations() {
     async function destroy(id: number) {
         const options = makeOptions("DELETE", null, true);
         try {
+            setIsLoading(true);
             await fetch(`${url}/${id}`, options).then(handleHttpErrors);
             const newReservations = reservations.filter((r) => r.id !== id);
             setReservations(newReservations);
+            setIsLoading(false);
             toast.success("Reservationen er slettet");
         } catch (e: unknown) {
             if (e instanceof HttpException) {

@@ -6,6 +6,7 @@ import useReservations from "../../hooks/useReservations.ts";
 import useScreenings from "../../hooks/useScreenings.ts";
 import { MdSearch } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import LoadingSpinner from "../../components/LoadingSpinner.tsx";
 
 function Search({
     setSearchedReservation
@@ -152,7 +153,11 @@ function Reservation({
 }
 
 function Reservations() {
-    const { reservations, destroy: deleteReservation } = useReservations();
+    const {
+        reservations,
+        destroy: deleteReservation,
+        isLoading
+    } = useReservations();
     const { screenings } = useScreenings();
 
     const [reservationDeleteModal, setReservationDeleteModal] = useState(false);
@@ -191,7 +196,13 @@ function Reservations() {
                     />
                 </>
             )}
-            {!searchedReservation &&
+            {isLoading && (
+                <div className="w-full h-screen flex justify-center items-center">
+                    <LoadingSpinner size={80} />
+                </div>
+            )}
+            {!isLoading &&
+                !searchedReservation &&
                 screenings.map((screening) => {
                     if (
                         reservations.some(

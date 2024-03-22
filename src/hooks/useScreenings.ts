@@ -49,10 +49,12 @@ function useScreenings(movieId?: number, cinemaId?: number) {
     async function add(screening: IScreeningFormData) {
         const options = makeOptions("POST", screening, true);
         try {
+            setIsLoading(true);
             const newScreening = await fetch(url, options).then(
                 handleHttpErrors
             );
             setScreenings([...screenings, newScreening]);
+            setIsLoading(false);
             toast.success("Forestillingen er oprettet");
         } catch (e: unknown) {
             if (e instanceof HttpException) {
@@ -65,9 +67,11 @@ function useScreenings(movieId?: number, cinemaId?: number) {
         if (!id) return;
         const options = makeOptions("DELETE", null, true);
         try {
+            setIsLoading(true);
             await fetch(`${url}/${id}`, options).then(handleHttpErrors);
             const updatedScreenings = screenings.filter((s) => s.id !== id);
             setScreenings(updatedScreenings);
+            setIsLoading(false);
             toast.success("Forestillingen er slettet");
         } catch (e: unknown) {
             if (e instanceof HttpException) {
