@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IReservation } from "../types/types";
 import toast from "react-hot-toast";
-import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
+import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
 
 function useReservations() {
     const [reservations, setReservations] = useState<IReservation[]>([]);

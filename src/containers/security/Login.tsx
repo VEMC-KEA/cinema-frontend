@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
-import useAuth from "./useAuth.ts";
-import type { User } from "../utils/auth.ts";
+import useAuth from "../../hooks/useAuth.ts";
+import type { User } from "../../utils/auth.ts";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import PageLayout from "../components/PageLayout.tsx";
+import PageLayout from "../../components/PageLayout.tsx";
 
 const Login = () => {
     const [user, setUser] = useState({ username: "", password: "" });

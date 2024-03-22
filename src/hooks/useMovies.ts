@@ -1,6 +1,6 @@
 import { IMovie } from "../types/types.ts";
 import { useEffect, useState } from "react";
-import { handleHttpErrors } from "../utils/fetchUtils.ts";
+import { handleHttpErrors } from "../utils/fetch.ts";
 
 function useMovies(cinemaId: number | undefined) {
     const [movies, setMovies] = useState<IMovie[]>([]);

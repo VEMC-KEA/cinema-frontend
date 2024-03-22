@@ -3,10 +3,10 @@ import Screenings from "../containers/admin/Screenings.tsx";
 import Cinemas from "../containers/Cinemas.tsx";
 import Reservations from "../containers/admin/Reservations.tsx";
 import ScreeningReservation from "../containers/ScreeningReservation.tsx";
-import AuthProvider from "../security/AuthProvider.tsx";
-import Login from "../security/Login.tsx";
-import LogOut from "../security/LogOut.tsx";
-import RequireAuth from "../security/RequireAuth.tsx";
+import AuthProvider from "./security/AuthProvider.tsx";
+import Login from "../containers/security/Login.tsx";
+import LogOut from "../containers/security/LogOut.tsx";
+import RequireAuth from "./security/RequireAuth.tsx";
 import Movies from "../containers/Movies.tsx";
 
 function PageRouter() {

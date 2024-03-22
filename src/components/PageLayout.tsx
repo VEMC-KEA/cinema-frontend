@@ -2,8 +2,8 @@ import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { LuPopcorn } from "react-icons/lu";
-import AuthStatus from "../security/AuthStatus.tsx";
-import useAuth from "../security/useAuth.ts";
+import AuthStatus from "./security/AuthStatus.tsx";
+import useAuth from "../hooks/useAuth.ts";
 
 function PageLayout({ children }: PropsWithChildren) {
     return (

@@ -3,7 +3,7 @@ import PageLayout from "../components/PageLayout.tsx";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ICinema, IMovie, IScreening } from "../types/types.ts";
 import useScreenings from "../hooks/useScreenings.ts";
-import { formatDate, formatTime } from "../utils/formatUtils.ts";
+import { formatDate, formatTime } from "../utils/formatting.ts";
 import useCinemas from "../hooks/useCinemas.ts";
 import { useEffect, useState } from "react";
 import {

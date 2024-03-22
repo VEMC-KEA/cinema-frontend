@@ -1,4 +1,4 @@
-import { handleHttpErrors, makeOptions } from "./fetchUtils.ts";
+import { handleHttpErrors, makeOptions } from "./fetch.ts";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LOGIN_URL = API_URL + "/api/auth/login";

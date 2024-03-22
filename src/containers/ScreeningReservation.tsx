@@ -6,14 +6,14 @@ import useScreenings from "../hooks/useScreenings.ts";
 import useCinemas from "../hooks/useCinemas.ts";
 import toast from "react-hot-toast";
 import useReservations from "../hooks/useReservations.ts";
-import { calcTotal } from "../utils/calculationUtils.ts";
+import { calcTotal } from "../utils/calculations.ts";
 import Modal from "../components/Modal.tsx";
 import { useSearchParams } from "react-router-dom";
 import {
     formatDate,
     formatTime,
     formatSeatsByRow
-} from "../utils/formatUtils.ts";
+} from "../utils/formatting.ts";
 
 function ConfirmModal({
     onSubmit,

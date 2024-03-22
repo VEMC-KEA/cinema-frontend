@@ -1,4 +1,4 @@
-import useAuth from "./useAuth";
+import useAuth from "../../hooks/useAuth.ts";
 import { Navigate, useLocation } from "react-router-dom";
 import { PropsWithChildren } from "react";
 

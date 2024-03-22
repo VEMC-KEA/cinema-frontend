@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { IScreening, IScreeningFormData } from "../types/types";
 import toast from "react-hot-toast";
-import { handleHttpErrors, makeOptions } from "../utils/fetchUtils.ts";
+import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
 
 function useScreenings(movieId?: number, cinemaId?: number) {
     const [screenings, setScreenings] = useState<IScreening[]>([]);

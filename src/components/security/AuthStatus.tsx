@@ -1,4 +1,4 @@
-import useAuth from "./useAuth.ts";
+import useAuth from "../../hooks/useAuth.ts";
 import { Link } from "react-router-dom";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 

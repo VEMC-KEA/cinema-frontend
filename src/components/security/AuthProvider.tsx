@@ -4,7 +4,7 @@ import {
     LoginRequest,
     LoginResponse,
     User
-} from "../utils/auth.ts";
+} from "../../utils/auth.ts";
 
 interface IAuthContext {
     username: string | null;
