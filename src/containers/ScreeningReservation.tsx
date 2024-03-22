@@ -158,13 +158,16 @@ function ShowReservationTable() {
 }
 
 function SideBar({
-    setShowReservationConfirm
+    setShowReservationConfirm,
+    disableButton
 }: {
     setShowReservationConfirm: Dispatch<SetStateAction<boolean>>;
+    disableButton: boolean;
 }) {
     const { cinema, screening, selectedSeats } = useContext(Context);
 
     function handleClick() {
+        if (disableButton) return;
         setShowReservationConfirm(true);
     }
 
@@ -178,12 +181,16 @@ function SideBar({
                     {cinema && screening && selectedSeats.length > 0 && (
                         <>
                             <ShowReservationTable />
-                            <div
-                                onClick={handleClick}
-                                className="font-semibold w-80 text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300"
-                            >
-                                Reservér Billetter
-                            </div>
+                            {disableButton && <LoadingSpinner size={40} />}
+                            {!disableButton && (
+                                <div
+                                    aria-disabled={disableButton}
+                                    onClick={handleClick}
+                                    className="font-semibold w-80 text-center bg-zinc-200 rounded-lg p-4 text-lg text-black hover:cursor-pointer hover:bg-zinc-300"
+                                >
+                                    Reservér Billetter
+                                </div>
+                            )}
                         </>
                     )}
                 </>
@@ -355,6 +362,7 @@ function ScreeningReservation() {
         complete: completeReservation
     } = useReservations();
     const [searchParams] = useSearchParams();
+    const [isLoading, setIsLoading] = useState(false);
     const screeningId = searchParams.get("screeningId")
         ? Number(searchParams.get("screeningId"))
         : undefined;
@@ -399,7 +407,10 @@ function ScreeningReservation() {
         async function updateReservationWithSelectedSeats() {
             if (!reservationId) return;
             const seatIds = selectedSeats.map((seat) => seat.id);
-            void updateReservation(seatIds, reservationId);
+            setIsLoading(true);
+            void updateReservation(seatIds, reservationId).then(() =>
+                setIsLoading(false)
+            );
         }
 
         void updateReservationWithSelectedSeats();
@@ -415,6 +426,7 @@ function ScreeningReservation() {
                     </div>
                     <SideBar
                         setShowReservationConfirm={setShowReservationConfirm}
+                        disableButton={isLoading}
                     />
                 </div>
             )}
