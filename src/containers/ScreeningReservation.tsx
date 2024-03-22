@@ -360,10 +360,13 @@ function ScreeningReservation() {
             }
             setReservationId(reservation.id);
         }
-        setSelectedSeats([]);
         void fetchData();
         void addInitialReservation();
     }, []);
+
+    useEffect(() => {
+        setSelectedSeats([]);
+    }, [screeningId]);
 
     useEffect(() => {
         async function updateReservationWithSelectedSeats() {
