@@ -10,4 +10,5 @@ function Modal({ children }: PropsWithChildren) {
         </div>
     );
 }
+
 export default Modal;

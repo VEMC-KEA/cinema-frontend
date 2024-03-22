@@ -1,4 +1,4 @@
-import { SetStateAction, createContext, useState } from "react";
+import { createContext, SetStateAction, useState } from "react";
 import { ICinema, IScreening, ISeatShortForm } from "./types/types.ts";
 
 interface IContext {
@@ -9,7 +9,9 @@ interface IContext {
     cinema: ICinema | undefined;
     setCinema: React.Dispatch<SetStateAction<ICinema | undefined>>;
     seatsByRow: { [rowLetter: string]: ISeatShortForm[] } | undefined;
-    setSeatsByRow: React.Dispatch<SetStateAction<{ [rowLetter: string]: ISeatShortForm[] } | undefined>>;
+    setSeatsByRow: React.Dispatch<
+        SetStateAction<{ [rowLetter: string]: ISeatShortForm[] } | undefined>
+    >;
     showReservationConfirm: boolean;
     setShowReservationConfirm: React.Dispatch<SetStateAction<boolean>>;
     showReservationComplete: boolean;
@@ -18,41 +20,51 @@ interface IContext {
 
 const Context = createContext<IContext>({
     selectedSeats: [],
-    setSelectedSeats: () => { },
+    setSelectedSeats: () => {},
     screening: undefined,
-    setScreening: () => { },
+    setScreening: () => {},
     cinema: undefined,
-    setCinema: () => { },
+    setCinema: () => {},
     seatsByRow: undefined,
-    setSeatsByRow: () => { },
+    setSeatsByRow: () => {},
     showReservationConfirm: false,
-    setShowReservationConfirm: () => { },
+    setShowReservationConfirm: () => {},
     showReservationComplete: false,
-    setShowReservationComplete: () => { }
+    setShowReservationComplete: () => {}
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
     const [selectedSeats, setSelectedSeats] = useState<ISeatShortForm[]>([]);
     const [screening, setScreening] = useState<IScreening>();
     const [cinema, setCinema] = useState<ICinema>();
-    const [seatsByRow, setSeatsByRow] = useState<{ [rowLetter: string]: ISeatShortForm[] }>();
+    const [seatsByRow, setSeatsByRow] = useState<{
+        [rowLetter: string]: ISeatShortForm[];
+    }>();
     const [showReservationConfirm, setShowReservationConfirm] = useState(false);
-    const [showReservationComplete, setShowReservationComplete] = useState(false);
+    const [showReservationComplete, setShowReservationComplete] =
+        useState(false);
 
     return (
-        <Context.Provider value={{
-            selectedSeats, setSelectedSeats,
-            screening, setScreening,
-            cinema, setCinema,
-            seatsByRow, setSeatsByRow,
-            showReservationConfirm, setShowReservationConfirm,
-            showReservationComplete: showReservationComplete, setShowReservationComplete: setShowReservationComplete
-        }}>
+        <Context.Provider
+            value={{
+                selectedSeats,
+                setSelectedSeats,
+                screening,
+                setScreening,
+                cinema,
+                setCinema,
+                seatsByRow,
+                setSeatsByRow,
+                showReservationConfirm,
+                setShowReservationConfirm,
+                showReservationComplete: showReservationComplete,
+                setShowReservationComplete: setShowReservationComplete
+            }}
+        >
             {children}
         </Context.Provider>
-    )
+    );
 }
-
 
 export default ContextProvider;
 

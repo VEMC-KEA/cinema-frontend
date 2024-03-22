@@ -139,9 +139,11 @@ function ShowReservationTable() {
 function SideBar() {
     const { cinema, screening, selectedSeats, setShowReservationConfirm } =
         useContext(Context);
+
     function handleClick() {
         setShowReservationConfirm(true);
     }
+
     return (
         <div className="w-[33vw] flex flex-col items-center">
             {cinema && screening && (

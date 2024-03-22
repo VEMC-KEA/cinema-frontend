@@ -21,10 +21,12 @@ interface ICreateFormInputs {
     setValue: UseFormSetValue<IScreeningFormData>;
     getHalls: (cinemaId: number) => Promise<IHallShortForm[] | undefined>;
 }
+
 interface ISelectOption {
     value: number;
     label: string;
 }
+
 function CreateFormSelects({
     getMovies,
     cinemas,
@@ -140,6 +142,7 @@ interface IScreeningFormProps {
     onSubmit: SubmitHandler<IScreeningFormData>;
     title: string;
 }
+
 function ScreeningForm({ onSubmit, title }: IScreeningFormProps) {
     const { cinemas, getHallsByCinemaId, getMoviesByCinemaId } = useCinemas();
     const { register, handleSubmit, setValue, reset } =

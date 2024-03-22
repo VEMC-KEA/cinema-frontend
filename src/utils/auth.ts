@@ -4,6 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const LOGIN_URL = API_URL + "/api/auth/login";
 
 type User = { username: string; password: string; roles?: string[] };
+
 interface LoginResponse {
     username: string;
     token: string;

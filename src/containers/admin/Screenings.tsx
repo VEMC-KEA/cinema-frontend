@@ -5,11 +5,13 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ScreeningForm from "./components/ScreeningForm.tsx";
 import { SubmitHandler } from "react-hook-form";
 import useScreenings from "../../hooks/useScreenings.ts";
+import LoadingSpinner from "./components/LoadingSpinner.tsx";
 
 interface ICreateModalProps {
     onSubmit: SubmitHandler<IScreeningFormData>;
     onClose: () => void;
 }
+
 function CreateModal({ onSubmit, onClose }: ICreateModalProps) {
     return (
         <Modal>
@@ -31,6 +33,7 @@ interface IDeleteModalProps {
     onSubmit: () => void;
     onClose: () => void;
 }
+
 function DeleteModal({ onSubmit, onClose }: IDeleteModalProps) {
     return (
         <Modal>
@@ -61,6 +64,7 @@ interface IScreeningProps {
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
     setSelectedScreening: Dispatch<SetStateAction<IScreening | null>>;
 }
+
 function Screening({
     screening,
     setShowDeleteModal,
@@ -95,6 +99,7 @@ interface ScreeningTableProps {
     setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
     setSelectedScreening: Dispatch<SetStateAction<IScreening | null>>;
 }
+
 function ScreeningTable({
     screenings,
     setShowDeleteModal,
@@ -140,7 +145,7 @@ function ScreeningTable({
 }
 
 function Screenings() {
-    const { screenings, add, destroy } = useScreenings();
+    const { screenings, add, destroy, isLoading } = useScreenings();
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedScreening, setSelectedScreening] =
@@ -148,12 +153,19 @@ function Screenings() {
 
     return (
         <PageLayout>
-            <ScreeningTable
-                screenings={screenings}
-                setShowDeleteModal={setShowDeleteModal}
-                setShowCreateModal={setShowCreateModal}
-                setSelectedScreening={setSelectedScreening}
-            />
+            {isLoading && (
+                <div className="w-full h-screen flex justify-center items-center">
+                    <LoadingSpinner />
+                </div>
+            )}
+            {!isLoading && (
+                <ScreeningTable
+                    screenings={screenings}
+                    setShowDeleteModal={setShowDeleteModal}
+                    setShowCreateModal={setShowCreateModal}
+                    setSelectedScreening={setSelectedScreening}
+                />
+            )}
             {showCreateModal && (
                 <CreateModal
                     onSubmit={(screening: IScreeningFormData) => {

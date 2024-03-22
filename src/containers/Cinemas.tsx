@@ -46,4 +46,5 @@ function Cinemas() {
         </PageLayout>
     );
 }
+
 export default Cinemas;

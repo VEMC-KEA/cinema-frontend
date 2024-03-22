@@ -5,6 +5,7 @@ import { PropsWithChildren } from "react";
 interface Props extends PropsWithChildren {
     roles?: string[];
 }
+
 function RequireAuth({ children, roles }: Props) {
     const auth = useAuth();
 
