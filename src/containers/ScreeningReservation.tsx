@@ -196,10 +196,11 @@ function Header() {
     const { screening } = useContext(Context);
     const { getById } = useMovies();
     const [movie, setMovie] = useState<IMovie | undefined>();
+
     useEffect(() => {
         if (!screening) return;
         getById(screening.movie.id).then((movie) => setMovie(movie));
-    }, []);
+    }, [screening]);
 
     return (
         <>
@@ -208,7 +209,7 @@ function Header() {
                     <img
                         src={movie?.imageUrl}
                         alt={screening.movie.title}
-                        className="w-20 rounded-md"
+                        className="w-20 rounded-md object-cover"
                     />
 
                     <div className="flex flex-col text-2xl w-full">
