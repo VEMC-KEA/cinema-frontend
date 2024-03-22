@@ -356,12 +356,12 @@ function ScreeningReservation() {
             const seatIds = selectedSeats.map((seat) => seat.id);
             void updateReservation(
                 seatIds,
-                parseInt(localStorage.getItem("reservationId")!)
+                Number(localStorage.getItem("reservationId"))
             );
         }
 
         void updateReservationWithSelectedSeats();
-    }, [selectedSeats]);
+    }, []);
 
     return (
         <PageLayout>
