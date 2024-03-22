@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import {
+    Dispatch,
+    SetStateAction,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import { Context } from "../Context.tsx";
 import PageLayout from "../components/PageLayout.tsx";
 import { ISeatShortForm } from "../types/types.ts";
@@ -144,9 +150,12 @@ function ShowReservationTable() {
     );
 }
 
-function SideBar() {
-    const { cinema, screening, selectedSeats, setShowReservationConfirm } =
-        useContext(Context);
+function SideBar({
+    setShowReservationConfirm
+}: {
+    setShowReservationConfirm: Dispatch<SetStateAction<boolean>>;
+}) {
+    const { cinema, screening, selectedSeats } = useContext(Context);
 
     function handleClick() {
         setShowReservationConfirm(true);
@@ -305,12 +314,12 @@ function ScreeningReservation() {
         setCinema,
         setSeatsByRow,
         selectedSeats,
-        showReservationConfirm,
-        setShowReservationConfirm,
-        showReservationComplete,
-        setShowReservationComplete
+        setSelectedSeats
     } = useContext(Context);
     const navigate = useNavigate();
+    const [showReservationConfirm, setShowReservationConfirm] = useState(false);
+    const [showReservationComplete, setShowReservationComplete] =
+        useState(false);
     const { getById: getScreeningById } = useScreenings();
     const { getById: getCinemaById } = useCinemas();
     const {
@@ -374,7 +383,9 @@ function ScreeningReservation() {
                         <Header />
                         <ShowSeats />
                     </div>
-                    <SideBar />
+                    <SideBar
+                        setShowReservationConfirm={setShowReservationConfirm}
+                    />
                 </div>
             )}
             {(!screening || !cinema) && <div>Loading...</div>}
@@ -385,6 +396,7 @@ function ScreeningReservation() {
                         void completeReservation(reservationId);
                         setShowReservationConfirm(false);
                         setShowReservationComplete(true);
+                        setSelectedSeats([]);
                     }}
                     onClose={() => {
                         setShowReservationConfirm(false);
