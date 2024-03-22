@@ -8,14 +8,14 @@ function Cinema({ cinema }: { cinema: ICinema }) {
     const navigate = useNavigate();
     return (
         <div
-            className="cursor-pointer relative flex flex-col bg-white rounded-xl min-h-80 h-[60vh] w-80 justify-end overflow-hidden"
+            className="cursor-pointer relative flex flex-col bg-white rounded min-h-80 h-[60vh] lg:w-1/4 justify-center w-full overflow-hidden"
             onClick={() => navigate(`/movies?cinemaId=${cinema.id}`)}
         >
-            <div className="z-10 text-stone-800 text-2xl bg-white w-full p-2 text-center">
+            <div className="z-10 text-stone-800 text-5xl font-bold bg-white bg-opacity-50 backdrop-blur-sm w-full py-32 text-center pointer-events-none">
                 {cinema.name}
             </div>
             <img
-                className="hover:scale-110 duration-1000 transition-transform absolute bottom-0 left-0 w-full h-full object-cover rounded-xl"
+                className="hover:scale-110 duration-1000 transition-transform absolute bottom-0 left-0 w-full h-full object-cover rounded"
                 alt={cinema.name}
                 src={cinema.imageUrl}
             />
@@ -34,7 +34,7 @@ function Cinemas() {
                 </div>
             )}
             {!isLoading && (
-                <div className="p-4 flex gap-4 justify-center items-center flex-wrap">
+                <div className="p-4 flex gap-4 max-lg:flex-col justify-evenly items-center flex-wrap">
                     {cinemas.map((cinema) => (
                         <Cinema
                             key={cinema.id}
