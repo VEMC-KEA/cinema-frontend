@@ -46,9 +46,9 @@ function PageRouter() {
                     <Route
                         path="/reservations"
                         element={
-                            <RequireAuth>
-                                <Reservations />
-                            </RequireAuth>
+                            /*<RequireAuth>
+                            </RequireAuth>*/
+                            <Reservations />
                         }
                     />
                     <Route
