@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ICinema, IHall, IMovieShortForm } from "../types/types.ts";
-import { handleHttpErrors } from "../utils/fetch.ts";
+import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
 import toast from "react-hot-toast";
 
 function useCinemas() {
@@ -42,8 +42,9 @@ function useCinemas() {
     async function getHallsByCinemaId(
         cinemaId: number
     ): Promise<IHall[] | undefined> {
+        const options = makeOptions("GET", null, true);
         try {
-            return await fetch(`${url}/${cinemaId}/halls`).then(
+            return await fetch(`${url}/${cinemaId}/halls`, options).then(
                 handleHttpErrors
             );
         } catch (e: unknown) {
