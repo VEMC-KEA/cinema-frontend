@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "../Context.tsx";
 import PageLayout from "../components/PageLayout.tsx";
 import { ISeatShortForm } from "../types/types.ts";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import useReservations from "../hooks/useReservations.ts";
 import { calcTotal } from "../utils/calculations.ts";
 import Modal from "../components/Modal.tsx";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
     formatDate,
     formatTime,
@@ -43,14 +43,19 @@ function ConfirmModal({
     );
 }
 
-function CompleteReservationModal({ onSubmit }: { onSubmit: () => void }) {
+function CompleteReservationModal({
+    onSubmit,
+    reservationId
+}: {
+    onSubmit: () => void;
+    reservationId: number | undefined;
+}) {
+    if (!reservationId) return null;
     return (
         <Modal>
             <div className="flex flex-col text-center pb-10">
                 <div className="text-2xl">Reservationen er oprettet!</div>
-                <div className="text-2xl">
-                    Afhentningskode: {localStorage.getItem("reservationId")}
-                </div>
+                <div className="text-2xl">Afhentningskode: {}</div>
             </div>
             <Header />
             <ShowReservationTable />
@@ -305,6 +310,7 @@ function ScreeningReservation() {
         showReservationComplete,
         setShowReservationComplete
     } = useContext(Context);
+    const navigate = useNavigate();
     const { getById: getScreeningById } = useScreenings();
     const { getById: getCinemaById } = useCinemas();
     const {
@@ -316,6 +322,7 @@ function ScreeningReservation() {
     const screeningId = searchParams.get("screeningId")
         ? Number(searchParams.get("screeningId"))
         : undefined;
+    const [reservationId, setReservationId] = useState<number | undefined>();
 
     useEffect(() => {
         async function fetchData() {
@@ -335,7 +342,6 @@ function ScreeningReservation() {
         }
 
         async function addInitialReservation() {
-            if (localStorage.getItem("reservationId")) return;
             if (!screeningId) return;
             const jsonBody = { screeningId: screeningId };
             const reservation = await addReservation(jsonBody);
@@ -343,7 +349,7 @@ function ScreeningReservation() {
                 toast.error("Kan ikke kontakte serveren. Prøv igen senere");
                 return;
             }
-            localStorage.setItem("reservationId", reservation.id.toString());
+            setReservationId(reservation.id);
         }
 
         void fetchData();
@@ -352,12 +358,9 @@ function ScreeningReservation() {
 
     useEffect(() => {
         async function updateReservationWithSelectedSeats() {
-            if (!localStorage.getItem("reservationId")) return;
+            if (!reservationId) return;
             const seatIds = selectedSeats.map((seat) => seat.id);
-            void updateReservation(
-                seatIds,
-                Number(localStorage.getItem("reservationId"))
-            );
+            void updateReservation(seatIds, reservationId);
         }
 
         void updateReservationWithSelectedSeats();
@@ -378,9 +381,8 @@ function ScreeningReservation() {
             {showReservationConfirm && (
                 <ConfirmModal
                     onSubmit={() => {
-                        void completeReservation(
-                            parseInt(localStorage.getItem("reservationId")!)
-                        );
+                        if (!reservationId) return;
+                        void completeReservation(reservationId);
                         setShowReservationConfirm(false);
                         setShowReservationComplete(true);
                     }}
@@ -392,9 +394,9 @@ function ScreeningReservation() {
             {showReservationComplete && (
                 <CompleteReservationModal
                     onSubmit={() => {
-                        localStorage.removeItem("reservationId");
-                        window.location.href = "/";
+                        navigate("/");
                     }}
+                    reservationId={reservationId}
                 />
             )}
         </PageLayout>
