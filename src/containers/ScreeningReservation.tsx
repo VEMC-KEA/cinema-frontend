@@ -360,7 +360,7 @@ function ScreeningReservation() {
             }
             setReservationId(reservation.id);
         }
-
+        setSelectedSeats([]);
         void fetchData();
         void addInitialReservation();
     }, []);
