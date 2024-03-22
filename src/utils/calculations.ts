@@ -6,7 +6,6 @@ function calcTotal(
     reservationFee: number,
     movieBasePrice: number
 ) {
-    console.log(selectedSeats, groupDiscount, reservationFee, movieBasePrice);
     let total = selectedSeats.reduce((acc) => acc + movieBasePrice, 0);
     if (selectedSeats.length >= 10)
         total = Math.floor(total - total * groupDiscount);
