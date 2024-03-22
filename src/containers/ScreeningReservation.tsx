@@ -394,6 +394,8 @@ function ScreeningReservation() {
             {showReservationComplete && (
                 <CompleteReservationModal
                     onSubmit={() => {
+                        setShowReservationConfirm(false);
+                        setShowReservationComplete(false);
                         navigate("/");
                     }}
                     reservationId={reservationId}
