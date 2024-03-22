@@ -1,16 +1,19 @@
 import { useContext, useEffect } from "react";
-import { Context } from "../../Context";
-import PageLayout from "../../components/PageLayout";
-import { ISeatShortForm } from "../../types/types";
-import formatSeatsByRow from "./helpers/formatSeatsByRow";
-import useScreenings from "../../hooks/useScreenings";
-import useCinemas from "../../hooks/useCinemas";
+import { Context } from "../Context.tsx";
+import PageLayout from "../components/PageLayout.tsx";
+import { ISeatShortForm } from "../types/types.ts";
+import useScreenings from "../hooks/useScreenings.ts";
+import useCinemas from "../hooks/useCinemas.ts";
 import toast from "react-hot-toast";
-import useReservations from "../../hooks/useReservations";
-import calcTotal from "./helpers/calcTotal";
-import Modal from "../../components/Modal";
+import useReservations from "../hooks/useReservations.ts";
+import { calcTotal } from "../utils/calculationUtils.ts";
+import Modal from "../components/Modal.tsx";
 import { useSearchParams } from "react-router-dom";
-import { formatDate, formatTime } from "../../utils/formatUtils.ts";
+import {
+    formatDate,
+    formatTime,
+    formatSeatsByRow
+} from "../utils/formatUtils.ts";
 
 function ConfirmModal({
     onSubmit,

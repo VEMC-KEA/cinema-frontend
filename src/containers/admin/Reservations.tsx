@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import PageLayout from "../../../components/PageLayout";
-import type { IReservation, IScreening } from "../../../types/types";
-import Modal from "../../../components/Modal";
-import useReservations from "../../../hooks/useReservations";
-import useScreenings from "../../../hooks/useScreenings";
+import PageLayout from "../../components/PageLayout.tsx";
+import type { IReservation, IScreening } from "../../types/types.ts";
+import Modal from "../../components/Modal.tsx";
+import useReservations from "../../hooks/useReservations.ts";
+import useScreenings from "../../hooks/useScreenings.ts";
 
 function Search({
     setSearchedReservation

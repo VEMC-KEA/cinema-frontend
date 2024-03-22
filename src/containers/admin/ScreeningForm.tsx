@@ -9,10 +9,10 @@ import type {
     IHallShortForm,
     IMovieShortForm,
     IScreeningFormData
-} from "../../../types/types.ts";
+} from "../../types/types.ts";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import useCinemas from "../../../hooks/useCinemas.ts";
+import useCinemas from "../../hooks/useCinemas.ts";
 
 interface ICreateFormInputs {
     register: UseFormRegister<IScreeningFormData>;

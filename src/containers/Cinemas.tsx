@@ -2,7 +2,7 @@ import PageLayout from "../components/PageLayout.tsx";
 import useCinemas from "../hooks/useCinemas.ts";
 import type { ICinema } from "../types/types.ts";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "./admin/components/LoadingSpinner.tsx";
+import LoadingSpinner from "../components/LoadingSpinner.tsx";
 
 function Cinema({ cinema }: { cinema: ICinema }) {
     const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Screenings from "../containers/admin/Screenings.tsx";
 import Cinemas from "../containers/Cinemas.tsx";
-import Reservations from "../containers/admin/reservations/Reservations.tsx";
-import ScreeningReservation from "../containers/screeningReservation/ScreeningReservation.tsx";
+import Reservations from "../containers/admin/Reservations.tsx";
+import ScreeningReservation from "../containers/ScreeningReservation.tsx";
 import AuthProvider from "../security/AuthProvider.tsx";
 import Login from "../security/Login.tsx";
 import LogOut from "../security/LogOut.tsx";

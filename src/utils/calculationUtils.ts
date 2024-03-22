@@ -1,4 +1,4 @@
-import { ISeatShortForm } from "../../../types/types";
+import { ISeatShortForm } from "../types/types.ts";
 
 function calcTotal(
     selectedSeats: ISeatShortForm[],
@@ -14,4 +14,4 @@ function calcTotal(
     return total;
 }
 
-export default calcTotal;
+export { calcTotal };

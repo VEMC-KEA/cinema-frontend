@@ -2,10 +2,10 @@ import PageLayout from "../../components/PageLayout.tsx";
 import type { IScreening, IScreeningFormData } from "../../types/types.ts";
 import Modal from "../../components/Modal.tsx";
 import { Dispatch, SetStateAction, useState } from "react";
-import ScreeningForm from "./components/ScreeningForm.tsx";
+import ScreeningForm from "./ScreeningForm.tsx";
 import { SubmitHandler } from "react-hook-form";
 import useScreenings from "../../hooks/useScreenings.ts";
-import LoadingSpinner from "./components/LoadingSpinner.tsx";
+import LoadingSpinner from "../../components/LoadingSpinner.tsx";
 
 interface ICreateModalProps {
     onSubmit: SubmitHandler<IScreeningFormData>;

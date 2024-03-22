@@ -10,7 +10,7 @@ import {
     MdOutlineArrowBackIosNew,
     MdOutlineArrowForwardIos
 } from "react-icons/md";
-import LoadingSpinner from "./admin/components/LoadingSpinner.tsx";
+import LoadingSpinner from "../components/LoadingSpinner.tsx";
 
 function Screening({ screening }: { screening: IScreening }) {
     const navigate = useNavigate();
