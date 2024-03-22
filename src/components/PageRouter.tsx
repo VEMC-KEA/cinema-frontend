@@ -51,7 +51,10 @@ function PageRouter() {
                             </RequireAuth>
                         }
                     />
-                    <Route path="/movies/:screeningId/reservation" element={<ScreeningReservation />} />
+                    <Route
+                        path="/reservation"
+                        element={<ScreeningReservation />}
+                    />
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

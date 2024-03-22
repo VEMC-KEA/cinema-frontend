@@ -103,7 +103,7 @@ interface IReservationScreening {
     hall: IHallShortForm;
     date: string;
     time: string;
-    is3D: boolean;
+    is3d: boolean;
 }
 
 export type {
