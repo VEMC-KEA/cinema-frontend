@@ -6,7 +6,7 @@ function LoadingSpinner({ size }: { size?: number }) {
             size={size ? size : 60}
             thickness={180}
             speed={157}
-            color="rgba(172, 57, 59, 1)"
+            color="rgba(220, 38, 38, 1)"
         />
     );
 }
