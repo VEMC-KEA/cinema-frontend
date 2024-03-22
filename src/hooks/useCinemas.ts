@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ICinema, IHall, IMovieShortForm } from "../types/types.ts";
-import { handleHttpErrors, makeOptions } from "../utils/fetch.ts";
+import { handleHttpErrors } from "../utils/fetch.ts";
 import toast from "react-hot-toast";
 
 function useCinemas() {
