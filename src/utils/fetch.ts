@@ -33,9 +33,25 @@ function makeOptions(
 async function handleHttpErrors(res: Response) {
     if (!res.ok) {
         const errorResponse = await res.json();
-        const msg = errorResponse.message
+        let msg = errorResponse.message
             ? errorResponse.message
-            : "No details provided";
+            : "Uventet fejl opstod";
+        if (res.status === 400) {
+            msg = "Der opstod en fejl i din forespørgsel. Prøv venligst igen.";
+        }
+        if (res.status === 401) {
+            msg =
+                "Du er ikke logget ind eller din session er udløbet. Log venligst ind igen.";
+        }
+        if (res.status === 403) {
+            msg = "Du har ikke adgang til denne ressource.";
+        }
+        if (res.status === 404) {
+            msg = "Ressourcen blev ikke fundet.";
+        }
+        if (res.status >= 500) {
+            msg = "Der skete en fejl på serveren. Prøv venligst igen senere.";
+        }
         throw new Error(msg);
     }
     if (res.status === 204) {
